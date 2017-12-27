@@ -1,3 +1,7 @@
+/* Modify the Queue class to create a Deque class. A deque is a queue-like structure
+that allows elements to be added and removed from both the front and the back of
+the list. Test your class in a program. */
+
 // Simply just a wrapper on what js array can do :)
 class Dequeue {
     constructor() {

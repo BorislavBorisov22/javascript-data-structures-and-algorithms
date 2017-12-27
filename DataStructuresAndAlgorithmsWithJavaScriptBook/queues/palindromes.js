@@ -1,3 +1,6 @@
+/* Use the Deque class you created to determine if a given word is a
+palindrome. */
+
 const Dequeue = require('./dequeue');
 
 const isPalindrome = (word) => {

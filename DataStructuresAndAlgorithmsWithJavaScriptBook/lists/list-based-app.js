@@ -1,3 +1,10 @@
+/* Modify the video-rental kiosk program so that when a movie is checked out it is
+added to a list of rented movies. Display this list whenever a customer checks out
+a movie.
+Create a check-in function for the video-rental kiosk program so that a returned
+movies is deleted from the rented movies list and is added back to the available
+movies list. */
+
 const fs = require('fs');
 const path = require('path');
 const List = require('./list');

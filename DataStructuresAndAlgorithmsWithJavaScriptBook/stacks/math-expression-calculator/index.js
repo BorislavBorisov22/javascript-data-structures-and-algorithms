@@ -1,3 +1,15 @@
+/* A stack can be used to ensure that an arithmetic expression has balanced paren‐
+theses. Write a function that takes an arithmetic expression as an argument and
+returns the postion in the expression where a parenthesis is missing. An example
+of an arithmetic expression with unbalanced parentheses is 2.3 + 23 / 12 + (3.14159
+* .24.
+A postfix expression evaluator works on arithmetic expressions taking the following
+form:
+op1 op2 operator
+Using two stacks—one for the operands and one for the operators—design and
+implement a JavaScript function that converts infix expressions to postfix expres‐
+sions, and then use the stacks to evaluate the expression. */
+
 // available operators, functions and brackets
 const operators = ['+', '-', '*', '/'];
 const mathematicalFunctions = ['ln', 'pow', 'sqrt'];

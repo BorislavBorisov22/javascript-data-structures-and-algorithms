@@ -103,9 +103,4 @@ class List {
     }
 }
 
-const list = new List();
-list.append(1);
-list.appendIfAny(2, n => n % 1 === 0);
-console.log(list.toString());
-
 module.exports = List;

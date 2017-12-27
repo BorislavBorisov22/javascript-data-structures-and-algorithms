@@ -1,4 +1,8 @@
-class MonthTemps {
+/* Modify the weeklyTemps object in the chapter so that it stores a month’s worth of
+data using a two-dimensional array. Create functions to display the monthly aver‐
+age, a specific week’s average, and all the weeks’ averages. */
+
+class WeeklyTemps {
     constructor(monthsCount) {
         this.dataStore = Array.from({ length: monthsCount }).map(_ => []);
     }
@@ -24,7 +28,7 @@ class MonthTemps {
     }
 }
 
-const monthTemp = new MonthTemps(3);
+const monthTemp = new WeeklyTemps(3);
 monthTemp.add(0, 3);
 monthTemp.add(1, 5);
 monthTemp.add(2, 4);
