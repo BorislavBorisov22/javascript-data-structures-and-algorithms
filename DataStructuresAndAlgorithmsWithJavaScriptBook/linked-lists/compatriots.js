@@ -9,18 +9,27 @@ people in a circle and specify that every mth person will be killed. The program
 should determine the number of the last two people left in the circle. Use a circularly
 linked list to solve the problem. */
 
+const idGen = (() => {
+    let id = 1;
+    return () => {
+        return id++;
+    };
+})();
+
 class Node {
     constructor(value) {
         this.value = value;
         this.next = null;
         this.prev = null;
+        this.id = idGen();
     }
 }
 
-class CircularLinkedList {
+class LinkedList {
     constructor() {
         this.head = null;
         this.tail = null;
+        this.count = 0;
     }
 
     push(...elements) {
@@ -28,12 +37,12 @@ class CircularLinkedList {
             return false;
         }
 
-        elements.forEach(element => this._push(element));
+        elements.forEach(element => this.pushSingle(element));
         return true;
     }
 
-    _push(value) {
-        if (!value) {
+    pushSingle(value) {
+        if (typeof value === 'undefined') {
             throw new Error('Value cannot be null or undefined!');
         }
 
@@ -47,9 +56,11 @@ class CircularLinkedList {
 
             this.tail = node;
         }
+
+        this.count++;
     }
 
-    remove(value) {
+    remove(callback) {
         if (!this.head) {
             return false;
         }
@@ -57,7 +68,7 @@ class CircularLinkedList {
         let current = this.head;
 
         while (current) {
-            if (current.value === value) {
+            if (callback(current)) {
                 const next = current.next;
                 const prev = current.prev;
 
@@ -77,19 +88,72 @@ class CircularLinkedList {
                     this.tail = prev;
                 }
 
+                this.count--;
                 return true;
             }
 
             current = current.next;
         }
+
+        return false;
+    }
+
+    removeNodes(...nodes) {
+        if (!nodes || !nodes.length) {
+            throw new Error('Invalid node parameters');
+        }
+
+        nodes.forEach(node => this.remove((currentNode) => currentNode === node));
     }
 
     makeCircular() {
         if (this.head && this.head !== this.tail) {
             this.tail.next = this.head;
+            this.head.prev = this.tail;
             return true;
         }
 
         return false;
     }
+
+    inOrder(callback) {
+        let current = this.head;
+        let index = 0;
+
+        while (current) {
+            callback(current, index);
+            current = current.next;
+            ++index;
+        }
+    }
 }
+
+const determineLastTwoInCircle = (peopleCount, m) => {
+    const list = new LinkedList();
+
+    for (let i = 1; i <= peopleCount; i++) {
+        list.pushSingle(i);
+    }
+
+    while (list.count > m - 1) {
+        const nodesToRemove = [];
+        list.inOrder((node, index) => {
+            if ((index + 1) % m === 0) {
+                nodesToRemove.push(node);
+            }
+        });
+
+        list.removeNodes(...nodesToRemove);
+    }
+
+    // immortal positions
+    const survivors = [];
+    list.inOrder((node) => survivors.push(node.value));
+    return survivors;
+};
+
+const compatriotsCount = 6;
+const nthKilled = 3;
+
+const immortalPositions = determineLastTwoInCircle(20, 5);
+console.log(immortalPositions, 'immortal positions');
