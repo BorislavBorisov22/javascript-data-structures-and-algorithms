@@ -16,6 +16,15 @@ class BinarySearchTree {
         this.root = null;
     }
 
+
+    /**
+     * Inserts new value in the tree
+     * 
+     * @param {any} value 
+     * @returns {void}
+     * 
+     * @memberOf BinarySearchTree
+     */
     insert(value) {
         const newNode = new Node(value, null, null);
 
@@ -44,37 +53,89 @@ class BinarySearchTree {
         }
     }
 
+
+    /**
+     * Inserts many values passed as comma seperated parameters
+     * to method
+     * 
+     * @param {any} values 
+     * 
+     * @memberOf BinarySearchTree
+     */
     insertMany(...values) {
         values.forEach(value => this.insert(value));
     }
 
-    printRecursive(node, indent) {
+    _inOrder(node, callback) {
         if (!node) {
             return;
         }
 
-        console.log(indent + node.data);
-        this.printRecursive(node.left, indent + '  ');
-        this.printRecursive(node.right, indent + '  ');
+        this._inOrder(node.left, callback);
+        callback(node);
+        this._inOrder(node.right, callback);
     }
 
-    traverse(callback) {
-        const queue = [];
-        queue.push(this.root);
+    /**
+     * Makes in order traversal of the tree
+     * and calls the passed callback function for each node
+     * passing the current node to the callback function
+     * 
+     * @param {function(node)} callback 
+     * 
+     * @memberOf BinarySearchTree
+     */
+    inOrder(callback) {
+        const current = this.root;
+        this._inOrder(current, callback);
+    }
 
-        while (queue.length > 0) {
-            const current = queue.shift();
-
-            callback(current);
-
-            if (current.left) {
-                queue.push(current.left);
-            }
-
-            if (current.right) {
-                queue.push(current.right);
-            }
+    _preOrder(node, callback) {
+        if (!node) {
+            return;
         }
+
+        callback(node);
+        this._preOrder(node.left, callback);
+        this._preOrder(node.right, callback);
+    }
+
+    /**
+     * Makes pre order traversal of the tree
+     * and calls the passed callback function for each node
+     * passing the current node to the callback function
+     * 
+     * @param {function(node)} callback 
+     * 
+     * @memberOf BinarySearchTree
+     */
+    preOrder(callback) {
+        const current = this.root;
+        this._preOrder(current, callback);
+    }
+
+    _postOrder(node, callback) {
+        if (!node) {
+            return;
+        }
+
+        this._postOrder(node.left, callback);
+        this._postOrder(node.right, callback);
+        callback(node);
+    }
+
+    /**
+     * Makes pre order traversal of the tree
+     * and calls the passed callback function for each node
+     * passing the current node to the callback function
+     * 
+     * @param {function(node)} callback 
+     * 
+     * @memberOf BinarySearchTree
+     */
+    postOrder(callback) {
+        const current = this.root;
+        this._postOrder(current, callback);
     }
 }
 
@@ -82,11 +143,20 @@ const tree = new BinarySearchTree((a, b) => a - b);
 tree.insert(22);
 tree.insert(44);
 tree.insert(99);
-tree.insert(100);
-tree.insert(11);
+tree.insert(30);
+tree.insert(28);
 tree.insert(30)
 
 // tree.traverse((node) => console.log(node.data));
-tree.printRecursive(tree.root, '');
+const preOrder = [];
+const inOrder = [];
+const postOrder = [];
+tree.preOrder((node) => preOrder.push(node.data));
+tree.inOrder((node) => inOrder.push(node.data));
+tree.postOrder((node) => postOrder.push(node.data));
+
+console.log(preOrder, 'preOrder');
+console.log(inOrder, 'inOrder');
+console.log(postOrder, 'postOrder');
 
 module.exports = BinarySearchTree;
