@@ -137,26 +137,64 @@ class BinarySearchTree {
         const current = this.root;
         this._postOrder(current, callback);
     }
+
+    getMin() {
+        if (this.root === null) {
+            return undefined;
+        }
+
+        let current = this.root;
+
+        while (current.left !== null) {
+            current = current.left;
+        }
+
+        return current.data;
+    }
+
+    getMax() {
+        if (this.root === null) {
+            return undefined;
+        }
+
+        let current = this.root;
+
+        while (current.right !== null) {
+            current = current.right;
+        }
+
+        return current.data;
+    }
+
+    find(data) {
+        let current = this.root;
+
+        while (current.data !== data) {
+            if (this.compareFunc(data, current.data) < 0) {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+
+            if (current === null) {
+                return null;
+            }
+        }
+
+        return current;
+    }
 }
 
 const tree = new BinarySearchTree((a, b) => a - b);
 tree.insert(22);
 tree.insert(44);
+tree.insert(20000);
 tree.insert(99);
 tree.insert(30);
 tree.insert(28);
 tree.insert(30)
 
-// tree.traverse((node) => console.log(node.data));
-const preOrder = [];
-const inOrder = [];
-const postOrder = [];
-tree.preOrder((node) => preOrder.push(node.data));
-tree.inOrder((node) => inOrder.push(node.data));
-tree.postOrder((node) => postOrder.push(node.data));
-
-console.log(preOrder, 'preOrder');
-console.log(inOrder, 'inOrder');
-console.log(postOrder, 'postOrder');
+const node = tree.find(30);
+console.log(node);
 
 module.exports = BinarySearchTree;
