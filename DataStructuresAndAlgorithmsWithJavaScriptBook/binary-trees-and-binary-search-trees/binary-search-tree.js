@@ -138,6 +138,13 @@ class BinarySearchTree {
         this._postOrder(current, callback);
     }
 
+    /**
+     * Returns the minimum value currently present in the tree
+     * 
+     * @returns {any}
+     * 
+     * @memberOf BinarySearchTree
+     */
     getMin() {
         if (this.root === null) {
             return undefined;
@@ -152,6 +159,13 @@ class BinarySearchTree {
         return current.data;
     }
 
+    /**
+     * Returns the maximum value currently present in the tree
+     * 
+     * @returns {any}
+     * 
+     * @memberOf BinarySearchTree
+     */
     getMax() {
         if (this.root === null) {
             return undefined;
@@ -166,6 +180,15 @@ class BinarySearchTree {
         return current.data;
     }
 
+    /**
+     * Finds and returns the node with the specified data 
+     * or returns null when node with such data is not found
+     * 
+     * @param {any} data 
+     * @returns {Node}
+     * 
+     * @memberOf BinarySearchTree
+     */
     find(data) {
         let current = this.root;
 
@@ -195,6 +218,8 @@ tree.insert(28);
 tree.insert(30)
 
 const node = tree.find(30);
+
 console.log(node);
+console.log(`Max: ${tree.getMax()}`, `Min: ${tree.getMin()}`);
 
 module.exports = BinarySearchTree;
