@@ -16,7 +16,6 @@ class BinarySearchTree {
         this.root = null;
     }
 
-
     /**
      * Inserts new value in the tree
      * 
@@ -208,6 +207,44 @@ class BinarySearchTree {
     }
 
     /**
+     * Searches for a node with the same data as the passed data parameter
+     * recursively
+     * 
+     * @param {any} data data to search for
+     * @returns {Node} the node with such data of null if no such node was found
+     * 
+     * @memberOf BinarySearchTree
+     */
+    findRecursive(data) {
+        return this._findRecursive(this.root, data);
+    }
+
+    /**
+     * Searches for a node with the same data as the passed data parameter
+     * recursively
+     * 
+     * @param {Node} node root for a given subtree
+     * @param {any} data data to search for
+     * @returns {Node} the node with such data of null if no such node was found
+     * 
+     * @memberOf BinarySearchTree
+     */
+    _findRecursive(node, data) {
+        if (!node) {
+            return null;
+        }
+
+        const compareResult = this.compareFunc(data, node.data);
+        if (compareResult === 0) {
+            return node;
+        } else if (compareResult < 0) {
+            return this._findRecursive(node.left, data);
+        } else {
+            return this._findRecursive(node.right, data);
+        }
+    }
+
+    /**
      * Returns the smallest node of a subtree with a root - the passed
      * node parameter
      * 
@@ -292,11 +329,100 @@ class BinarySearchTree {
             return node;
         }
     }
+
+    /**
+     * Returns the lowest common ancestor node of two passed nodes
+     * 
+     * @param {Node} firstNode 
+     * @param {Node} secondNode 
+     * @param {Node} current The root of the search tree to check in
+     * @returns {Node} the lowest common ancestor of first and second node
+     * 
+     * @memberOf BinarySearchTree
+     */
+    _lowestCommonAncestor(firstNode, secondNode, current) {
+        if (!firstNode || !secondNode || !current) {
+            return null;
+        }
+
+        if (firstNode === secondNode) {
+            return firstNode;
+        }
+
+        const isFirstInLeftTree = this._existsInSubtree(current.left, firstNode);
+        const isSecondInLeftTree = this._existsInSubtree(current.left, secondNode);
+
+        const isFirstInRightTree = this._existsInSubtree(current.right, firstNode);
+        const isSecondInRightTree = this._existsInSubtree(current.right, secondNode);
+
+        if (
+            (isFirstInLeftTree && isSecondInRightTree) ||
+            (isFirstInRightTree && isSecondInLeftTree)) {
+
+            return current;
+        }
+
+        if (isFirstInLeftTree && isSecondInLeftTree) {
+            return this._lowestCommonAncestor(firstNode, secondNode, current.left);
+        }
+
+        if (isFirstInRightTree, isSecondInRightTree) {
+            return this._lowestCommonAncestor(firstNode, secondNode, current.right);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the lowest common ancestor node of two passed nodes
+     * 
+     * @param {Node} firstNode 
+     * @param {Node} secondNode 
+     * @returns {Node} the lowest common ancestor of first and second node
+     * 
+     * @memberOf BinarySearchTree
+     */
+    lowestCommonAncestor(firstNode, secondNode, current) {
+        return this._lowestCommonAncestor(firstNode, secondNode, this.root);
+    }
+
+    /**
+     * Check is given node exists in a subtree
+     * 
+     * @param {node} current Root node of a given subtree
+     * @param {node} target Node to check for
+     * @returns {bool} if given node exists in a subtree
+     * 
+     * @memberOf BinarySearchTree
+     */
+    _existsInSubtree(current, target) {
+        if (!current) {
+            return false;
+        }
+
+        if (current === target) {
+            return true;
+        } else {
+            const leftSearch = this._existsInSubtree(current.left, target);
+            const rightSearch = this._existsInSubtree(current.right, target);
+
+            return leftSearch || rightSearch;
+        }
+    }
 }
 
 const tree = new BinarySearchTree((a, b) => a - b);
-tree.insertMany(7, 6, 19, 4, 6, 6.5, 6.5, 10, 9, 25, 17, 13, 12, 15);
-tree.remove(10);
-console.log(tree.find(17));
+tree.insertMany(7, 6, 6.5, 4, 12, 10, 25, 33, 21, 9, 11, 20, 24);
+
+const testLowestCommonAncestor = (firstValue, secondValue) => {
+    const firstNode = tree.find(firstValue);
+    const secondNode = tree.find(secondValue);
+
+    const lowestCommonAncestor = tree.lowestCommonAncestor(firstNode, secondNode)
+    return lowestCommonAncestor;
+};
+
+const lowestCommonAncestor = testLowestCommonAncestor(4, 6.5);
+console.log(lowestCommonAncestor);
 
 module.exports = BinarySearchTree;
