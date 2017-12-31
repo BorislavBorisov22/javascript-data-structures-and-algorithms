@@ -12,6 +12,14 @@ class LinkedList {
         this.tail = null;
     }
 
+
+    /**
+     * Adds value to the end of the list
+     * 
+     * @param {any} value value to add 
+     * 
+     * @memberOf LinkedList
+     */
     push(value) {
         const node = new Node(value);
         if (this.head === null && this.tail === null) {
@@ -24,6 +32,14 @@ class LinkedList {
         }
     }
 
+
+    /**
+     * Adds value to the beggining of the list
+     * 
+     * @param {any} value value to add
+     * 
+     * @memberOf LinkedList
+     */
     unshift(value) {
         const node = new Node(value);
 
@@ -37,6 +53,14 @@ class LinkedList {
         }
     }
 
+    /**
+     * Traverses list in order and calls the passed callback function
+     * on each node by passing the node's data to the callback
+     * 
+     * @param {any} callback the callback that is executed on each node
+     * 
+     * @memberOf LinkedList
+     */
     inOrder(callback) {
         let currentNode = this.head;
 
@@ -46,6 +70,14 @@ class LinkedList {
         }
     }
 
+    /**
+     * Removes the first occurence of a target value from the list
+     * 
+     * @param {any} value value to remove from the list
+     * @returns {bool} if the value was successfully remove from the list 
+     * 
+     * @memberOf LinkedList
+     */
     remove(value) {
         if (!this.head) {
             return false;
@@ -84,6 +116,13 @@ class LinkedList {
         return false;
     }
 
+    /**
+     * Checks if the linked list has cycle
+     * 
+     * @returns {bool} if the linked list is cyclic
+     * 
+     * @memberOf LinkedList
+     */
     hasCycle() {
         let fast = this.head;
         let slow = this.head;
@@ -107,6 +146,13 @@ class LinkedList {
         }
     }
 
+    /** 
+     * Removes the last element from the list and returns it
+     * 
+     * @returns {any} the value of the last node in the list
+     * 
+     * @memberOf LinkedList
+     */
     pop() {
         if (!this.tail) {
             return null;
@@ -119,6 +165,13 @@ class LinkedList {
         return oldTail;
     }
 
+    /** 
+     * Removes the first element from the list and returns it
+     * 
+     * @returns {any} the value of the first node in the list
+     * 
+     * @memberOf LinkedList
+     */
     shift() {
         if (!this.head) {
             return null;
@@ -131,6 +184,12 @@ class LinkedList {
         return oldHead;
     }
 
+    /**
+     * Reverses the order of the elements in the list
+     * recursivley
+     * 
+     * @memberOf LinkedList
+     */
     recursiveReverse() {
         const inverse = (current, next) => {
             if (!current || !next) {
@@ -156,6 +215,12 @@ class LinkedList {
         this.tail.next = null;
     }
 
+
+    /**
+     * Reverses the order of the elements in the list iterativley
+     * 
+     * @memberOf LinkedList
+     */
     reverse() {
         if (!this.head || !this.head.next) {
             return;
@@ -176,12 +241,5 @@ class LinkedList {
         this.tail = temp;
     }
 }
-
-const traverseReverse = (node) => {
-    while (node) {
-        console.log(node.value);
-        node = node.prev;
-    }
-};
 
 module.exports = LinkedList;
