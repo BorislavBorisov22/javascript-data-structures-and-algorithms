@@ -6,6 +6,12 @@ class Node {
     }
 }
 
+
+/**
+ * Stores unique values
+ * 
+ * @class Set
+ */
 class Set {
     constructor(size = 100) {
         this.data = [];
