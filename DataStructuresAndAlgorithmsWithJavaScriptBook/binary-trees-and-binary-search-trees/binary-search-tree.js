@@ -12,6 +12,10 @@ class Node {
 
 class BinarySearchTree {
     constructor(compareFunc) {
+        if (typeof compareFunc !== 'function' || compareFunc.length < 2) {
+            throw new Error('Passed compareFunc parameter must be a function accepting two arguments!');
+        }
+
         this.compareFunc = compareFunc;
         this.root = null;
     }
@@ -410,16 +414,62 @@ class BinarySearchTree {
         }
     }
 
+    /**
+     * Returs the height of the binary search tree
+     * 
+     * @returns {Numbers} the height of the tree
+     * 
+     * @memberOf BinarySearchTree
+     */
     getHeight() {
         return this._getHeight(this.root);
     }
 
+    /**
+     * Returns the height of a subtree starting from the passed root node
+     * 
+     * @param {Node} node the root of the subtree 
+     * @returns {Number}
+     * 
+     * @memberOf BinarySearchTree
+     */
     _getHeight(node) {
         if (!node) {
             return 0;
         }
 
         return 1 + Math.max(this._getHeight(node.left), this._getHeight(node.right));
+    }
+
+
+    /**
+     * Checks if the tree is balanced
+     * 
+     * @returns {bool}
+     * 
+     * @memberOf BinarySearchTree
+     */
+    isBalanced() {
+        return this._isBalanced(this.root);
+    }
+
+
+    /**
+     * Checks if a subtree is balanced starting from the passed root node
+     * 
+     * @param {Node} node the root of the subtree 
+     * @returns {bool}
+     * 
+     * @memberOf BinarySearchTree
+     */
+    _isBalanced(node) {
+        if (!node) {
+            return true;
+        }
+
+        return this._isBalanced(node.left) &&
+            this._isBalanced(node.right) &&
+            Math.abs(this._getHeight(node.left) - this._getHeight(node.right)) <= 1;
     }
 }
 
