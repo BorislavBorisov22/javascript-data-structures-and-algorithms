@@ -409,20 +409,18 @@ class BinarySearchTree {
             return leftSearch || rightSearch;
         }
     }
+
+    getHeight() {
+        return this._getHeight(this.root);
+    }
+
+    _getHeight(node) {
+        if (!node) {
+            return 0;
+        }
+
+        return 1 + Math.max(this._getHeight(node.left), this._getHeight(node.right));
+    }
 }
-
-const tree = new BinarySearchTree((a, b) => a - b);
-tree.insertMany(7, 6, 6.5, 4, 12, 10, 25, 33, 21, 9, 11, 20, 24);
-
-const testLowestCommonAncestor = (firstValue, secondValue) => {
-    const firstNode = tree.find(firstValue);
-    const secondNode = tree.find(secondValue);
-
-    const lowestCommonAncestor = tree.lowestCommonAncestor(firstNode, secondNode)
-    return lowestCommonAncestor;
-};
-
-const lowestCommonAncestor = testLowestCommonAncestor(4, 6.5);
-console.log(lowestCommonAncestor);
 
 module.exports = BinarySearchTree;
