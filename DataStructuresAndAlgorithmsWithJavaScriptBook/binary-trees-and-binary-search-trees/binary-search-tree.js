@@ -391,7 +391,7 @@ class BinarySearchTree {
     }
 
     /**
-     * Check is given node exists in a subtree
+     * Check if given node exists in a subtree
      * 
      * @param {node} current Root node of a given subtree
      * @param {node} target Node to check for
