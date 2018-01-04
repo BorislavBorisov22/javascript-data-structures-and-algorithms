@@ -24,7 +24,6 @@ class Graph {
      */
     addEdge(from, to) {
         this.adjacencyList[from].push(to);
-        this.adjacencyList[to].push(from);
         this.edgesCount++;
     }
     
@@ -120,6 +119,40 @@ class Graph {
         }
 
         return null;
+    }
+    
+    /**
+     * Topological sorting graph algorithm.
+     * 
+     * @returns {Array<number>} the graph vertices in topologically sorted order
+     * @public
+     * @memberOf Graph
+     */
+    topologicalSort() {
+        const resultStack = [];
+        const visited = [];
+
+        for (let i = 0; i < this.adjacencyList.length; i++) {
+            if (!visited[i]) {
+                this._topologicalSort(i, visited, resultStack);
+            }
+        }
+
+        return resultStack.reverse();
+    }
+
+    _topologicalSort(node, visited, resultStack) {
+        visited[node] = true;
+
+        if (this.adjacencyList[node]) {
+            this.adjacencyList[node].forEach(adjNode => {
+                if (!visited[adjNode]) {
+                    this._topologicalSort(adjNode, visited, resultStack);
+                }
+            });
+        }
+
+        resultStack.push(node);
     }
     
     /**
