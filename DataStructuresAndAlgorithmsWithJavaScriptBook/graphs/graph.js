@@ -27,7 +27,41 @@ class Graph {
         this.adjacencyList[to].push(from);
         this.edgesCount++;
     }
+    
+      /**
+     * Depth-First graph searching algorithm.
+     * Returns whether there's a path between two nodes in a graph.<br><br>
+     * 
+     * @param {Number} startNode node to start searching the graph from 
+     * @param {Number} targetNode not to search for 
+     * 
+     * @memberOf Graph
+     */
+    dfs(startNode, targetNode) {
+        const visited = [];
+        return this._dfs(startNode, targetNode, visited);
+    }
 
+    _dfs(current, target, visited) {
+        if (current === target) {
+            return true;
+        }
+
+        visited[current] = true;
+
+        for (let i = 0; i < this.adjacencyList[current].length; i++) {
+            const adjacentNode = this.adjacencyList[current][i];
+            if (!visited[adjacentNode]) {
+                const areConnected = this._dfs(adjacentNode, target, visited);
+                if (areConnected) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
     /**
      * Prints out each node and it's adjacent nodes
      * 
