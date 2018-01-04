@@ -62,6 +62,66 @@ class Graph {
         return false;
     }
     
+     /**
+     * Build up the path from a node to it's root parent using the parents array
+     * 
+     * @param {Array<Number>} parents arrays storing each node's parent node
+     * @param {Number} node node to start from 
+     * @returns {Array<number>} the path from the node to it's root parent
+     * 
+     * @memberOf Graph
+     */
+    _buildPath(parents, node) {
+        const result = [];
+        result.push(node);
+
+        while (parents[node] !== null) {
+            result.push(parents[node]);
+            node = parents[node];
+        }
+
+        return result.reverse();
+    }
+
+    /**
+     * Breath-First graph searching algorithm.
+     * Returns the shortest path between startNode and targetNode.
+     * 
+     * @param {Number} startNode node to start searching the graph from
+     * @param {Number} targetNode node to search for
+     * @returns {Array} the shortest path from starsNode to targetNode 
+     * 
+     * @memberOf Graph
+     */
+    bfs(startNode, targetNode) {
+        const parents = [];
+        const queue = [];
+        const visited = [];
+
+        parents[startNode] = null;
+        visited[startNode] = true;
+
+        queue.push(startNode);
+
+        while (queue.length > 0) {
+            const current = queue.shift();
+
+            if (current === targetNode) {
+                return this._buildPath(parents, current);
+            }
+
+            this.adjacencyList[current].forEach((vertex) => {
+                if (!visited[vertex]) {
+                    visited[vertex] = true;
+                    parents[vertex] = current;
+                    queue.push(vertex);
+                }
+            });
+        }
+
+        return null;
+    }
+    
     /**
      * Prints out each node and it's adjacent nodes
      * 
