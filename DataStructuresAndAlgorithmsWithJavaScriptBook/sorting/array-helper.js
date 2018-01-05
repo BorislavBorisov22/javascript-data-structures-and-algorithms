@@ -154,6 +154,31 @@ class ArrayHelper {
                 this.swap(this.dataStore, i, smallestIndex);
             }
         }
+    }  
+    
+    /**
+     * Insertion sort algorithm
+     * Complexity: O(n^2)
+     * 
+     * @param {Function} cmp Optional. . A function that defines an
+     * alternative sort order. The function should return a negative,
+     * zero, or positive value, depending on the arguments
+     * 
+     * @memberOf ArrayHelper
+     */
+    insertionSort(cmp) {
+        cmp = cmp || defaultComparator;
+
+        for (let index = 1; index < this.dataStore.length; index++) {
+            const element = this.dataStore[index];
+            let i = index;
+            while (i > 0 && cmp(this.dataStore[i - 1], element) > 0) {
+                this.dataStore[i] = this.dataStore[i - 1];
+                i--;
+            }
+
+            this.dataStore[i] = element;
+        }
     }
 }
 
