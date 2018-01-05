@@ -106,7 +106,30 @@ class ArrayHelper {
         const temp = arr[firstIndex];
         arr[firstIndex] = arr[secondIndex];
         arr[secondIndex] = temp;
+    } 
+    
+    /**
+    * Bubble sort algorithm
+    * Complexity: O(n^2)
+    * 
+    * @param {Function} cmp Optional. . A function that defines an
+    * alternative sort order. The function should return a negative,
+    * zero, or positive value, depending on the arguments
+    * 
+    * @memberOf ArrayHelper
+    */
+    bubbleSort(cmp) {
+        cmp = cmp || defaultComparator;
+
+        for (let i = this.dataStore.length; i > 1; i--) {
+            for (let j = 0; j < i - 1; j++) {
+                if (cmp(this.dataStore[j], this.dataStore[j + 1]) > 0) {
+                    this.swap(this.dataStore, j, j + 1);
+                }
+            }
+        }
     }
+
 }
 
 module.exports = ArrayHelper;
