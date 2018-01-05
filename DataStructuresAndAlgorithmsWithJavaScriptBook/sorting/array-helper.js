@@ -2,7 +2,6 @@ const defaultComparator = (a, b) => {
     return a - b;
 }
 
-
 /**
  * Array wrapper class that provides random numbers insertion in the array
  * and executes different sorting algorithms on the underlying array. 
@@ -129,7 +128,33 @@ class ArrayHelper {
             }
         }
     }
+    
+    /**
+     * Selection sort algorithm
+     * Complexity: O(n^2)
+     * 
+     * @param {Function} cmp Optional. . A function that defines an
+     * alternative sort order. The function should return a negative,
+     * zero, or positive value, depending on the arguments
+     * 
+     * @memberOf ArrayHelper
+     */
+    selectionSort(cmp) {
+        cmp = cmp || defaultComparator;
 
+        for (let i = 0; i < this.dataStore.length; i++) {
+            let smallestIndex = i;
+            for (let j = i + 1; j < this.dataStore.length; j++) {
+                if (cmp(this.dataStore[j], this.dataStore[smallestIndex]) < 0) {
+                    smallestIndex = j;
+                }
+            }
+
+            if (smallestIndex !== i) {
+                this.swap(this.dataStore, i, smallestIndex);
+            }
+        }
+    }
 }
 
 module.exports = ArrayHelper;
