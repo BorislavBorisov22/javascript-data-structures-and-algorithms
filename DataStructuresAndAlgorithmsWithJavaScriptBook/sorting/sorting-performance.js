@@ -1,5 +1,6 @@
 const ArrayHelper = require('./array-helper');
 
+// tests a sorting algorithm's time performance from the array helper class and prints time elapsed in milliseconds
 const testSortingPerformance = (helper, methodToInvoke) => {
     const start = new Date().getTime();
     helper[methodToInvoke]();
