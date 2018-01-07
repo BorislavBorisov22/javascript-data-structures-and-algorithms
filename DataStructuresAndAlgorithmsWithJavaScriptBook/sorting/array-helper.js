@@ -14,7 +14,6 @@ class ArrayHelper {
         this.dataStore = Array.from({ length: this.elementsCount });
     }
 
-
     /**
      * Fills the array size with random numbers between 1 and
      * the total number of elements
@@ -105,18 +104,18 @@ class ArrayHelper {
         const temp = arr[firstIndex];
         arr[firstIndex] = arr[secondIndex];
         arr[secondIndex] = temp;
-    } 
-    
+    }
+
     /**
-    * Bubble sort algorithm
-    * Complexity: O(n^2)
-    * 
-    * @param {Function} cmp Optional. . A function that defines an
-    * alternative sort order. The function should return a negative,
-    * zero, or positive value, depending on the arguments
-    * 
-    * @memberOf ArrayHelper
-    */
+     * Bubble sort algorithm
+     * Complexity: O(n^2)
+     * 
+     * @param {Function} cmp Optional. . A function that defines an
+     * alternative sort order. The function should return a negative,
+     * zero, or positive value, depending on the arguments
+     * 
+     * @memberOf ArrayHelper
+     */
     bubbleSort(cmp) {
         cmp = cmp || defaultComparator;
 
@@ -128,7 +127,7 @@ class ArrayHelper {
             }
         }
     }
-    
+
     /**
      * Selection sort algorithm
      * Complexity: O(n^2)
@@ -154,8 +153,8 @@ class ArrayHelper {
                 this.swap(this.dataStore, i, smallestIndex);
             }
         }
-    }  
-    
+    }
+
     /**
      * Insertion sort algorithm
      * Complexity: O(n^2)
@@ -180,6 +179,27 @@ class ArrayHelper {
             this.dataStore[i] = element;
         }
     }
+
+    shellSort(cmp) {
+        this.gaps = [5, 3, 1];
+        for (var g = 0; g < this.gaps.length; ++g) {
+            for (var i = this.gaps[g]; i < this.dataStore.length; ++i) {
+                var temp = this.dataStore[i];
+                for (var j = i; j >= this.gaps[g] &&
+                    this.dataStore[j - this.gaps[g]] > temp; j -= this.gaps[g]) {
+                    this.dataStore[j] = this.dataStore[j - this.gaps[g]];
+                }
+                this.dataStore[j] = temp;
+            }
+        }
+    }
 }
+
+const helper = new ArrayHelper(0);
+const numbers = [3, 1, 15, 0, 19, 3];
+numbers.forEach(n => helper.insert(n));
+console.log(helper.dataStore, 'before');
+helper.shellSort();
+console.log(helper.dataStore, 'after');
 
 module.exports = ArrayHelper;
