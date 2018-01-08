@@ -26,8 +26,8 @@ class Graph {
         this.adjacencyList[from].push(to);
         this.edgesCount++;
     }
-    
-      /**
+
+    /**
      * Depth-First graph searching algorithm.
      * Returns whether there's a path between two nodes in a graph.<br><br>
      * 
@@ -60,8 +60,8 @@ class Graph {
 
         return false;
     }
-    
-     /**
+
+    /**
      * Build up the path from a node to it's root parent using the parents array
      * 
      * @param {Array<Number>} parents arrays storing each node's parent node
@@ -120,7 +120,7 @@ class Graph {
 
         return null;
     }
-    
+
     /**
      * Topological sorting graph algorithm.
      * 
@@ -154,7 +154,7 @@ class Graph {
 
         resultStack.push(node);
     }
-    
+
     /**
      * Prints out each node and it's adjacent nodes
      * 

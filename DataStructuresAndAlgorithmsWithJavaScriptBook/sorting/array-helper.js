@@ -159,7 +159,7 @@ class ArrayHelper {
      * Insertion sort algorithm
      * Complexity: O(n^2)
      * 
-     * @param {Function} cmp Optional. . A function that defines an
+     * @param {Function} cmp Optional. A function that defines an
      * alternative sort order. The function should return a negative,
      * zero, or positive value, depending on the arguments
      * 
@@ -180,6 +180,16 @@ class ArrayHelper {
         }
     }
 
+    /**
+     * Shellsort which uses the gaps 5,3,1 and
+     * insertion sort to sort sub-arrays which match for the different gaps.
+     * 
+     * @param {Function} cmp Optional. A function that defines an
+     * alternative sort order. The function should return a negative,
+     * zero, or positive value, depending on the arguments
+     * 
+     * @memberOf ArrayHelper
+     */
     shellSort(cmp) {
         this.gaps = [5, 3, 1];
         for (var g = 0; g < this.gaps.length; ++g) {
