@@ -71,7 +71,7 @@ class ArrayHelper {
     /**
      * Determines wheter the array is sorted or not.
      * 
-     * @param {Function} cmp Optional. . A function that defines an
+     * @param {Function} cmp Optional. A function that defines an
      * alternative sort order. The function should return a negative,
      * zero, or positive value, depending on the arguments
      * 
@@ -110,7 +110,7 @@ class ArrayHelper {
      * Bubble sort algorithm
      * Complexity: O(n^2)
      * 
-     * @param {Function} cmp Optional. . A function that defines an
+     * @param {Function} cmp Optional. A function that defines an
      * alternative sort order. The function should return a negative,
      * zero, or positive value, depending on the arguments
      * 
@@ -132,7 +132,7 @@ class ArrayHelper {
      * Selection sort algorithm
      * Complexity: O(n^2)
      * 
-     * @param {Function} cmp Optional. . A function that defines an
+     * @param {Function} cmp Optional. A function that defines an
      * alternative sort order. The function should return a negative,
      * zero, or positive value, depending on the arguments
      * 
