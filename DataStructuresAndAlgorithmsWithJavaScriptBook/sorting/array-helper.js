@@ -216,11 +216,4 @@ class ArrayHelper {
     }
 }
 
-const helper = new ArrayHelper(0);
-const numbers = [3, 1, 15, 0, 19, 3];
-numbers.forEach(n => helper.insert(n));
-console.log(helper.dataStore, 'before');
-helper.shellSort();
-console.log(helper.dataStore, 'after');
-
 module.exports = ArrayHelper;
