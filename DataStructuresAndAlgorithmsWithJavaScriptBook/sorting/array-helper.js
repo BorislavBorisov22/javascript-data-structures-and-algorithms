@@ -179,28 +179,39 @@ class ArrayHelper {
             this.dataStore[i] = element;
         }
     }
-
+    
     /**
-     * Shellsort which uses the gaps 5,3,1 and
-     * insertion sort to sort sub-arrays which match for the different gaps.
-     * 
-     * @param {Function} cmp Optional. A function that defines an
-     * alternative sort order. The function should return a negative,
-     * zero, or positive value, depending on the arguments
-     * 
-     * @memberOf ArrayHelper
-     */
+    * Shellsort algorithm
+    * Complexity: O((nlog(n))^2)
+    * 
+    * @param {Function} cmp Optional. A function that defines an
+    * alternative sort order. The function should return a negative,
+    * zero, or positive value, depending on the arguments
+    * 
+    * @memberOf ArrayHelper
+    */
     shellSort(cmp) {
-        this.gaps = [5, 3, 1];
-        for (var g = 0; g < this.gaps.length; ++g) {
-            for (var i = this.gaps[g]; i < this.dataStore.length; ++i) {
-                var temp = this.dataStore[i];
-                for (var j = i; j >= this.gaps[g] &&
-                    this.dataStore[j - this.gaps[g]] > temp; j -= this.gaps[g]) {
-                    this.dataStore[j] = this.dataStore[j - this.gaps[g]];
+        cmp = cmp || defaultComparator;
+
+        let gap = 1;
+        while (gap < this.dataStore.length / 3) {
+            gap = 3 * gap + 1;
+        }
+
+        while (gap >= 1) {
+            for (let index = gap; index < this.dataStore.length; index++) {
+                let element = this.dataStore[index];
+                let i = index;
+
+                while (i - gap >= 0 && cmp(element, this.dataStore[i - gap]) < 0) {
+                    this.dataStore[i] = this.dataStore[i - gap];
+                    i -= gap;
                 }
-                this.dataStore[j] = temp;
+
+                this.dataStore[i] = element;
             }
+
+            gap = gap - 1 * 3;
         }
     }
 }
