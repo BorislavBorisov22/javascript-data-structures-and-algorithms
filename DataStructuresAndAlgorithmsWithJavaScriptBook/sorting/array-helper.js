@@ -211,7 +211,7 @@ class ArrayHelper {
                 this.dataStore[i] = element;
             }
 
-            gap = gap - 1 * 3;
+            gap = (gap - 1) / 3;
         }
     }
 }
