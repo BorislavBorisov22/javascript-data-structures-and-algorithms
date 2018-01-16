@@ -179,17 +179,17 @@ class ArrayHelper {
             this.dataStore[i] = element;
         }
     }
-    
+
     /**
-    * Shellsort algorithm
-    * Complexity: O((nlog(n))^2)
-    * 
-    * @param {Function} cmp Optional. A function that defines an
-    * alternative sort order. The function should return a negative,
-    * zero, or positive value, depending on the arguments
-    * 
-    * @memberOf ArrayHelper
-    */
+     * Shellsort algorithm
+     * Complexity: O((nlog(n))^2)
+     * 
+     * @param {Function} cmp Optional. A function that defines an
+     * alternative sort order. The function should return a negative,
+     * zero, or positive value, depending on the arguments
+     * 
+     * @memberOf ArrayHelper
+     */
     shellSort(cmp) {
         cmp = cmp || defaultComparator;
 
@@ -214,17 +214,17 @@ class ArrayHelper {
             gap = (gap - 1) / 3;
         }
     }
-    
+
     /**
-    * Merge sort algorithm.
-    * Complexity: O(nlog(n))
-    * 
-    * @param {Function} cmp Optional. A function that defines an
-    * alternative sort order. The function should return a negative,
-    * zero, or positive value, depending on the arguments
-    * 
-    * @memberOf ArrayHelper
-    */
+     * Merge sort algorithm.
+     * Complexity: O(nlog(n))
+     * 
+     * @param {Function} cmp Optional. A function that defines an
+     * alternative sort order. The function should return a negative,
+     * zero, or positive value, depending on the arguments
+     * 
+     * @memberOf ArrayHelper
+     */
     mergeSort(cmp) {
         // array with less than two elements is considered to be already sorted.
         if (this.dataStore.length < 2) {
@@ -248,20 +248,20 @@ class ArrayHelper {
             }
         }
     }
-    
+
     /**
-    * Divides and sort merges two subarray of given array
-    * 
-    * @param {any} arr The array that should have it's subarrays sorted
-    * @param {any} startIndex the start index of the first subarray
-    * @param {any} middleIndex the start index of the second subarray
-    * @param {any} stopIndex the end index (excluded) of the second subarray 
-    * @param {any} cmp  A function that defines an
-    * alternative sort order. The function should return a negative,
-    * zero, or positive value, depending on the arguments
-    * 
-    * @memberOf ArrayHelper
-    */
+     * Divides and sort merges two subarray of given array
+     * 
+     * @param {any} arr The array that should have it's subarrays sorted
+     * @param {any} startIndex the start index of the first subarray
+     * @param {any} middleIndex the start index of the second subarray
+     * @param {any} stopIndex the end index (excluded) of the second subarray 
+     * @param {any} cmp  A function that defines an
+     * alternative sort order. The function should return a negative,
+     * zero, or positive value, depending on the arguments
+     * 
+     * @memberOf ArrayHelper
+     */
     _mergeArrays(arr, startIndex, middleIndex, stopIndex, cmp) {
         const leftArr = Array.from({ length: middleIndex - startIndex + 1 });
         const rightArr = Array.from({ length: stopIndex - middleIndex + 1 });
@@ -293,6 +293,32 @@ class ArrayHelper {
                 ++rightArrIndex;
             }
         }
+    }
+
+    quickSort(cmp) {
+        cmp = cmp || defaultComparator;
+        this.dataStore = this._quickSort(this.dataStore, cmp);
+    }
+
+    _quickSort(arr, cmp) {
+        if (arr.length < 2) {
+            return arr;
+        }
+
+        const lessThanPivot = [];
+        const greaterThanPivot = [];
+
+        const pivot = arr[0];
+
+        for (let i = 1; i < arr.length; ++i) {
+            if (cmp(arr[i], pivot) < 0) {
+                lessThanPivot.push(arr[i]);
+            } else {
+                greaterThanPivot.push(arr[i]);
+            }
+        }
+
+        return this._quickSort(lessThanPivot, cmp).concat(pivot, this._quickSort(greaterThanPivot, cmp));
     }
 }
 
