@@ -248,7 +248,20 @@ class ArrayHelper {
             }
         }
     }
-
+    
+    /**
+    * Divides and sort merges two subarray of given array
+    * 
+    * @param {any} arr The array that should have it's subarrays sorted
+    * @param {any} startIndex the start index of the first subarray
+    * @param {any} middleIndex the start index of the second subarray
+    * @param {any} stopIndex the end index (excluded) of the second subarray 
+    * @param {any} cmp  A function that defines an
+    * alternative sort order. The function should return a negative,
+    * zero, or positive value, depending on the arguments
+    * 
+    * @memberOf ArrayHelper
+    */
     _mergeArrays(arr, startIndex, middleIndex, stopIndex, cmp) {
         const leftArr = Array.from({ length: middleIndex - startIndex + 1 });
         const rightArr = Array.from({ length: stopIndex - middleIndex + 1 });
