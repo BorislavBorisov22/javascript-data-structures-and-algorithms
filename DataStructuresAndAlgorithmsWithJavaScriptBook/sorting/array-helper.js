@@ -295,11 +295,34 @@ class ArrayHelper {
         }
     }
 
+    /**
+     * Quicksort algorithm
+     * Complexity: O(nlog(n))
+     * 
+     * @public
+     * @param {Function} cmp Optional. A function that defines an
+     * alternative sort order. The function should return a negative,
+     * zero, or positive value, depending on the arguments
+     * 
+     * @memberOf ArrayHelper
+     */
     quickSort(cmp) {
         cmp = cmp || defaultComparator;
         this.dataStore = this._quickSort(this.dataStore, cmp);
     }
 
+    /**
+     * Quicksort algorithm
+     * Complexity: O(nlog(n))
+     * 
+     * @private
+     * @param {Array} arr The array to be sorted
+     * @param {Function} cmp Optional. A function that defines an
+     * alternative sort order. The function should return a negative,
+     * zero, or positive value, depending on the arguments
+     * 
+     * @memberOf ArrayHelper
+     */
     _quickSort(arr, cmp) {
         if (arr.length < 2) {
             return arr;
