@@ -1,16 +1,43 @@
 const ArrayHelper = require('./array-helper');
 
 // tests a sorting algorithm's time performance from the array helper class and prints time elapsed in milliseconds
-const testSortingPerformance = (helper, methodToInvoke) => {
+const runSortingAlogirthm = (helper, methodToInvoke, cmp = undefined) => {
     const start = new Date().getTime();
-    helper[methodToInvoke]();
+    helper[methodToInvoke](cmp);
     const end = new Date().getTime();
 
     console.log(`${methodToInvoke} with ${helper.dataStore.length} elements, lasted ${end - start}`);
 };
 
-const methods = ['bubbleSort', 'selectionSort', 'insertionSort'];
-methods.forEach(method => {
-    const helper = new ArrayHelper(10000);
-    testSortingPerformance(helper, method)
+const testSortingPerformance = (dataSize, callback, methods, message, cmp = undefined) => {
+    const helper = new ArrayHelper();
+
+    methods.forEach(method => {
+        const helper = new ArrayHelper(dataSize);
+        callback(helper);
+        runSortingAlogirthm(helper, method, cmp)
+    });
+};
+
+const sortingMethodsNames = ['bubbleSort', 'selectionSort', 'insertionSort', 'shellSort', 'mergeSort', 'quickSort'];
+
+/*1. Run the three algorithms discussed in this chapter with string data rather than
+numeric data and compare the running times for the different algorithms. Are the
+results consistent with the results of using numeric data? */
+testSortingPerformance(1000, (helper) => {
+    let strings = ['randomString', 'someOtherRandomString', 'moreRandomTextHere', 'andSomeMore'];
+    for (let i = 0; i < 11; ++i) {
+        strings = [...strings, ...strings];
+    }
+
+    helper.dataStore = strings;
+
+}, sortingMethodsNames, 'Sorting String values', (a, b) => {
+    if (a < b) {
+        return -1;
+    } else if (a > b) {
+        return 1;
+    }
+
+    return 0;
 });
