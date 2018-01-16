@@ -215,6 +215,16 @@ class ArrayHelper {
         }
     }
     
+    /**
+    * Merge sort algorithm.
+    * Complexity: O(nlog(n))
+    * 
+    * @param {Function} cmp Optional. A function that defines an
+    * alternative sort order. The function should return a negative,
+    * zero, or positive value, depending on the arguments
+    * 
+    * @memberOf ArrayHelper
+    */
     mergeSort(cmp) {
         // array with less than two elements is considered to be already sorted.
         if (this.dataStore.length < 2) {
