@@ -24,7 +24,7 @@ const sortingMethodsNames = ['bubbleSort', 'selectionSort', 'insertionSort', 'sh
 /*1. Run the three algorithms discussed in this chapter with string data rather than
 numeric data and compare the running times for the different algorithms. Are the
 results consistent with the results of using numeric data? */
-const sortWithStrings = () => {
+const testWithStrings = () => {
     testSortingPerformance(1000, (helper) => {
         let strings = ['randomString', 'someOtherRandomString', 'moreRandomTextHere', 'andSomeMore'];
         for (let i = 0; i < 11; ++i) {
@@ -44,15 +44,30 @@ const sortWithStrings = () => {
     });
 };
 
+// testWithStrings();
+
 /* 2. Create an array of 1,000 integers already sorted into numeric order. Write a program
 that runs each sorting algorithm with this array, timing each algorithm and com‐
 paring the times. How do these times compare to the times for sorting an array in
 random order? */
-const sortAlreadySortedElements = () => {
+const testWithAlreadySortedElements = () => {
     testSortingPerformance(1000, (helper) => {
         helper.setData();
         helper.mergeSort();
     }, sortingMethodsNames, 'Sorting already sorted data');
 };
 
-// sortAlreadySortedElements();
+// testWithAlreadySortedElements();
+
+/* 3. Create an array of 1,000 integers sorted in reverse numerical order. Write a program
+that runs each sorting algorithm with this array, timing each algorithm, and com‐
+pare the times.*/
+const testWithReverselySortedElements = () => {
+    testSortingPerformance(10000, (helper) => {
+        helper.setData();
+        helper.mergeSort();
+        helper.dataStore.reverse();
+    }, sortingMethodsNames, 'Sorting reverse sorted data');
+};
+
+testWithReverselySortedElements();
