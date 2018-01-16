@@ -70,4 +70,30 @@ const testWithReverselySortedElements = () => {
     }, sortingMethodsNames, 'Sorting reverse sorted data');
 };
 
-testWithReverselySortedElements();
+// testWithReverselySortedElements();
+
+/* Create an array of over 10,000 randomly generated integers and sort the array using
+both Quicksort and the JavaScript built-in sorting function, timing each function.
+Is there a time difference between the two functions?  */
+const compareBuiltInSortAndQuickSort = () => {
+    console.log('Comparing Quicksort and built-in sorting in JS');
+
+    const helper = new ArrayHelper(10000);
+    helper.setData();
+
+    let start = new Date().getTime();
+    helper.dataStore.sort((a, b) => a - b);
+    let end = new Date().getTime();
+
+    console.log(`Built-in sorting with ${helper.dataStore.length} elements, lasted ${end - start}`);
+
+    helper.setData();
+
+    start = new Date().getTime();
+    helper.dataStore.sort((a, b) => a - b);
+    end = new Date().getTime();
+
+    console.log(`Quicksort sorting with ${helper.dataStore.length} elements, lasted ${end - start}`);
+};
+
+// compareBuiltInSortAndQuickSort();
