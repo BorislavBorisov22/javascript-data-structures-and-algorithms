@@ -214,6 +214,63 @@ class ArrayHelper {
             gap = (gap - 1) / 3;
         }
     }
+    
+    mergeSort(cmp) {
+        // array with less than two elements is considered to be already sorted.
+        if (this.dataStore.length < 2) {
+            return;
+        }
+
+        cmp = cmp || defaultComparator;
+
+        for (let step = 1; step < this.dataStore.length; step *= 2) {
+            let left = 0;
+            let right = step;
+
+            while (right + step <= this.dataStore.length) {
+                this._mergeArrays(this.dataStore, left, right, right + step, cmp);
+                left = right + step;
+                right = left + step;
+            }
+
+            if (right < this.dataStore.length) {
+                this._mergeArrays(this.dataStore, left, right, this.dataStore.length, cmp);
+            }
+        }
+    }
+
+    _mergeArrays(arr, startIndex, middleIndex, stopIndex, cmp) {
+        const leftArr = Array.from({ length: middleIndex - startIndex + 1 });
+        const rightArr = Array.from({ length: stopIndex - middleIndex + 1 });
+
+        let index = startIndex;
+        for (let i = 0; i < leftArr.length - 1; ++i) {
+            leftArr[i] = arr[index];
+            ++index;
+        }
+
+        index = middleIndex;
+        for (let i = 0; i < rightArr.length - 1; ++i) {
+            rightArr[i] = arr[index];
+            ++index;
+        }
+
+        leftArr[leftArr.length - 1] = Infinity;
+        rightArr[rightArr.length - 1] = Infinity;
+
+        let leftArrIndex = 0;
+        let rightArrIndex = 0;
+
+        for (let i = startIndex; i < stopIndex; ++i) {
+            if (cmp(leftArr[leftArrIndex], rightArr[rightArrIndex]) <= 0) {
+                arr[i] = leftArr[leftArrIndex];
+                ++leftArrIndex;
+            } else {
+                arr[i] = rightArr[rightArrIndex];
+                ++rightArrIndex;
+            }
+        }
+    }
 }
 
 module.exports = ArrayHelper;
