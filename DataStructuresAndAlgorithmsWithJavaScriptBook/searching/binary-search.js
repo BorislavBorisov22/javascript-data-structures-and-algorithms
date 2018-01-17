@@ -1,7 +1,7 @@
 const defaultComparator = (a, b) => a - b;
 
 /**
- * Performs binary search on provided sorted data and compare function
+ * Performs binary search on provided sorted data and compares data by provided cmp function
  * Complexity: O(log(n))
  * 
  * @param {Array} arr The array to search through
