@@ -15,12 +15,8 @@ const longestCommonSubstring = (firstWord, secondWord) => {
                 .map(_ => 0);
         });
 
-    for (let i = 0; i <= firstWord.length; ++i) {
-        for (let j = 0; j <= secondWord.length; ++j) {
-            if (i === 0 || j === 0) {
-                continue;
-            }
-
+    for (let i = 1; i <= firstWord.length; ++i) {
+        for (let j = 1; j <= secondWord.length; ++j) {
             lcsMatrix[i][j] = firstWord[i - 1] === secondWord[j - 1] ?
                 lcsMatrix[i - 1][j - 1] + 1 :
                 0;
