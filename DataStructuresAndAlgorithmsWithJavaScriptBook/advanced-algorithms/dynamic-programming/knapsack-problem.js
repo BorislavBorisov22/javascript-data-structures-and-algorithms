@@ -28,7 +28,7 @@ const knapsackRecursive = (capacity, sizes, values, n) => {
     }
 };
 
-`/**
+ /**
  * Solves the commonly known in computer science Knapsack problem
  * using dymanic programming.
  * https://en.wikipedia.org/wiki/Knapsack_problem
@@ -63,8 +63,4 @@ const knapsackDynamicProgramming = (capacity, sizes, values, n) => {
     return knapsackMatrix[n][capacity];
 };
 
-const sizes = [3, 4, 7, 8, 9];
-const values = [4, 5, 10, 11, 13];
-const capacity = 16;
-const n = 5;
-const result = knapsackRecursive(capacity, sizes, values, n);
+module.exports = { knapsackRecursive, knapsackDynamicProgramming };
