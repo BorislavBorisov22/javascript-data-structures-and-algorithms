@@ -28,6 +28,28 @@ const knapsackRecursive = (capacity, sizes, values, n) => {
     }
 };
 
+const knapsackDynamicProgramming = (capacity, sizes, values, n) => {
+    const knapsackMatrix = Array.from({ length: n + 1 }).map(_ => []);
+
+    for (let itemIndex = 0; itemIndex <= n; itemIndex++) {
+        for (let weight = 0; weight <= capacity; weight++) {
+            if (itemIndex === 0 || weight === 0) {
+                knapsackMatrix[itemIndex][weight] = 0;
+            } else if (weight >= sizes[itemIndex - 1]) {
+                knapsackMatrix[itemIndex][weight] =
+                    max(
+                        knapsackMatrix[itemIndex - 1][weight - sizes[itemIndex - 1]] + values[itemIndex - 1],
+                        knapsackMatrix[itemIndex - 1][weight]
+                    );
+            } else {
+                knapsackMatrix[itemIndex][weight] = knapsackMatrix[itemIndex - 1][weight];
+            }
+        }
+    }
+
+    return knapsackMatrix[n][capacity];
+};
+
 const sizes = [3, 4, 7, 8, 9];
 const values = [4, 5, 10, 11, 13];
 const capacity = 16;
