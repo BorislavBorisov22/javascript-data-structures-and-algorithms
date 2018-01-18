@@ -28,6 +28,19 @@ const knapsackRecursive = (capacity, sizes, values, n) => {
     }
 };
 
+`/**
+ * Solves the commonly known in computer science Knapsack problem
+ * using dymanic programming.
+ * https://en.wikipedia.org/wiki/Knapsack_problem
+ * 
+ * @param {Number} capacity the maximum capacity that can be taken
+ * @param {Number} sizes the sizes of the items to select from
+ * @param {Number} values the values of the items to select from
+ * @param {Number} n the number of all items to select from
+ * @returns {Number} The maximum value that can be achieved from
+ * selecting the provided items without taking elements with summed
+ * capacity more than the passed maximum
+ */
 const knapsackDynamicProgramming = (capacity, sizes, values, n) => {
     const knapsackMatrix = Array.from({ length: n + 1 }).map(_ => []);
 
