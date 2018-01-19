@@ -2,7 +2,8 @@
  * Coin change greedy algorithm
  * 
  * @param {any} originalAmount 
- * @returns 
+ * @returns {Array} array with the number of available coins of
+ *  each type (0.25, 0.10, 0.05, 0.01)
  */
 const makeChange = (originalAmount) => {
     // saving each of the available coins count needed to make the change
