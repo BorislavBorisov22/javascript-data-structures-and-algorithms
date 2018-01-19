@@ -1,3 +1,9 @@
+/**
+ * Coin change greedy algorithm
+ * 
+ * @param {any} originalAmount 
+ * @returns 
+ */
 const makeChange = (originalAmount) => {
     // saving each of the available coins count needed to make the change
     // indeces => 0 -> 0.1; 1 -> 0.05; 2 -> 0.1; 3 -> 0.25;
