@@ -33,6 +33,12 @@ const makeChange = (originalAmount) => {
     return coins;
 }
 
+/**
+ * Shows the cost of each available coin from the change
+ * 
+ * @param {Array} coins the number of available coins of
+ *  each type (0.25, 0.10, 0.05, 0.01) 
+ */
 const showChange = (coins) => {
     const print = console.log;
 
