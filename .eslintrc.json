@@ -39,10 +39,6 @@
             "single"
         ],
         "no-unused-vars": 2,
-        "strict": [
-            2,
-            "function"
-        ],
         "no-extend-native": 2,
         "wrap-iife": [
             2,
