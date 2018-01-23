@@ -1,13 +1,7 @@
 ((exports) => {
 
-    exports.StackNode = function(value) {
-        this.value = value;
-        this.next = null;
-        this.prev = null;
-    }
-
     exports.Stack = function() {
-        this._tail = null;
+        this._data = [];
         this._size = 0;
     };
 
@@ -16,31 +10,22 @@
             throw new Error('Cannot add undefined value!');
         }
 
-        const nodeToAdd = new exports.StackNode(value);
-        if (this._tail === null) {
-            this._tail = nodeToAdd;
-        } else {
-            this._tail.next = nodeToAdd;
-            nodeToAdd.prev = this._tail;
-            this._tail = nodeToAdd;
-        }
-
-        ++this._size;
+        this._data[this._size++] = value;
     };
 
     exports.Stack.prototype.pop = function() {
-        if (!this._tail) {
+        if (!this._size === 0) {
             return null;
         }
 
-        const tailToReturn = this._tail;
-        if (this._tail.prev) {
-            this._tail = this._tail.prev;
-            this._tail.next = null;
-        }
+        const valueToReturn = this.peek();
+        this._data.splice(this._size--, 1);
 
-        --this._size;
-        return tailToReturn.value;
+        return valueToReturn;
+    }
+
+    exports.Stack.prototype.peek = function() {
+        return this._data[this._size - 1];
     }
 
     Object.defineProperty(exports.Stack.prototype, 'isEmpty', {
