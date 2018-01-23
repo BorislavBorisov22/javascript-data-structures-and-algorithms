@@ -32,4 +32,10 @@ describe('Stack data structure tests', () => {
 
         expect(stack.isEmpty).to.be.false;
     });
+
+    it('expect stack.peek to return the top element but leave it in the stack', () => {
+        stack.push(22);
+        expect(stack.peek()).to.equal(22);
+        expect(stack.size).to.equal(1);
+    });
 });
