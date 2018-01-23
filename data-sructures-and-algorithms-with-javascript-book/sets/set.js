@@ -53,7 +53,7 @@ class Set {
     }
 
     /**
-     * Addes value to the set. Returns true if the value was not previously
+     * Adds value to the set. Returns true if the value was not previously
      * present in the set and it was added successfully
      * 
      * @param {any} value 
