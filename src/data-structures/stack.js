@@ -11,7 +11,7 @@
         this._size = 0;
     };
 
-    exports.prototype.push = function(value) {
+    exports.Stack.prototype.push = function(value) {
         if (typeof value === 'undefined') {
             throw new Error('Cannot add undefined value!');
         }
@@ -28,7 +28,7 @@
         ++this._size;
     };
 
-    exports.prototype.pop = function() {
+    exports.Stack.prototype.pop = function() {
         if (!this._tail) {
             return null;
         }
@@ -42,4 +42,11 @@
         --this._size;
         return tailToReturn.value;
     }
+
+    Object.defineProperty(exports.Stack.prototype, 'isEmpty', {
+        get: function() {
+            return this._size === 0;
+        },
+    });
+
 })(typeof window === 'undefined' ? module.exports : window);
