@@ -20,7 +20,9 @@ describe('Queue tests', () => {
         }
     });
 
-    it('expect queue.peek to always return the first value added that is still present but without removing it.', () => {
+    it(
+        'expect queue.peek to always return the first value added that is still present but without removing it.',
+        () => {
         queue.enqueue(22);
         queue.enqueue(13);
         const peeked = queue.peek();
