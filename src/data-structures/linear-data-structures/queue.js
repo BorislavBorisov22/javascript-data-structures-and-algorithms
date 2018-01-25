@@ -27,7 +27,7 @@
         ++this.size;
     };
 
-    exports.Queue.prototype.dequeue = function (value) {
+    exports.Queue.prototype.dequeue = function () {
         if (this._head === null) {
             return null;
         }
