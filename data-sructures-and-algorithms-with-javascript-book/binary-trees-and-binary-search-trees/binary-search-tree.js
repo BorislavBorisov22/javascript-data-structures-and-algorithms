@@ -56,7 +56,6 @@ class BinarySearchTree {
         }
     }
 
-
     /**
      * Inserts many values passed as comma seperated parameters
      * to method
@@ -441,7 +440,6 @@ class BinarySearchTree {
         return 1 + Math.max(this._getHeight(node.left), this._getHeight(node.right));
     }
 
-
     /**
      * Checks if the tree is balanced
      * 
@@ -452,7 +450,6 @@ class BinarySearchTree {
     isBalanced() {
         return this._isBalanced(this.root);
     }
-
 
     /**
      * Checks if a subtree is balanced starting from the passed root node
