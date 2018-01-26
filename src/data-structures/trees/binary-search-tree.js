@@ -200,5 +200,46 @@
 
         return Math.abs(leftHeight - rightHeight) <= 1 && leftIsBalanced && rightIsBalanced;
     };
+    
+    exports.BinaryTree.prototype._existsInSubtree = function (node) {
+        if (!node) {
+            throw new Error('Passed node parameter is null or undefined!');
+        }
 
+        return this._existsInSubtree(this._root, node);
+    };
+
+    exports.prototype.BinaryTree._existsInSubtree = function (currentNode, targetNode) {
+        if (!currentNode) {
+            return false;
+        }
+
+        if (currentNode === targetNode) {
+            return true;
+        }
+
+        return this._existsInSubtree(currentNode.left, targetNode) ||
+            this._existsInSubtree(currentNode.right, targetNode);
+    };
+    
+    exports.BinaryTree.prototype._existsInSubtree = function (node) {
+        if (!node) {
+            throw new Error('Passed node parameter is null or undefined!');
+        }
+
+        return this._existsInSubtree(this._root, node);
+    };
+
+    exports.prototype.BinaryTree._existsInSubtree = function (currentNode, targetNode) {
+        if (!currentNode) {
+            return false;
+        }
+
+        if (currentNode === targetNode) {
+            return true;
+        }
+
+        return this._existsInSubtree(currentNode.left, targetNode) ||
+            this._existsInSubtree(currentNode.right, targetNode);
+    };
 })(typeof window === 'undefined' ? module.exports : window);
