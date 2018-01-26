@@ -22,7 +22,7 @@
      * @public
      * @constructor
      */
-    exports.Stack = function() {
+    const Stack = function() {
         this._data = [];
         this.size = 0;
     };
@@ -34,7 +34,7 @@
      * @method
      * @param {Any} value value to add to the stack.
      */
-    exports.Stack.prototype.push = function(value) {
+    Stack.prototype.push = function(value) {
         if (typeof value === 'undefined') {
             throw new Error('Cannot add undefined value!');
         }
@@ -50,7 +50,7 @@
      * @method
      * @returns {Any} the value popped from the top of the stack
      */
-    exports.Stack.prototype.pop = function() {
+    Stack.prototype.pop = function() {
         if (!this.size === 0) {
             return null;
         }
@@ -70,7 +70,7 @@
      * @returns {Any} the value from the top
      * of the stack or null if stack is empty
      */
-    exports.Stack.prototype.peek = function() {
+    Stack.prototype.peek = function() {
         return this._data[this.size - 1];
     };
 
@@ -82,9 +82,11 @@
      * @returns {Any} the value from the top
      * of the stack or null if stack is empty
      */
-    Object.defineProperty(exports.Stack.prototype, 'isEmpty', {
+    Object.defineProperty(Stack.prototype, 'isEmpty', {
         get: function() {
             return this.size === 0;
         },
     });
+
+    exports.Stack = Stack;
 })(typeof window === 'undefined' ? module.exports : window);

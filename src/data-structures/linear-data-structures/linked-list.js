@@ -1,22 +1,22 @@
-(function (exports) {
-    exports.LinkedNode = function (value) {
+(function(exports) {
+    const LinkedNode = function(value) {
         this.value = value;
         this.next = null;
         this.prev = null;
     };
 
-    exports.LinkedList = function () {
+    const LinkedList = function() {
         this._head = null;
         this._tail = null;
         this.size = 0;
     };
 
-    exports.LinkedList.prototype.push = function (value) {
+    LinkedList.prototype.push = function(value) {
         if (typeof value === 'undefined') {
             throw new Error('Cannot push an undefined value.');
         }
 
-        const nodeToAdd = new exports.LinkedNode(value);
+        const nodeToAdd = new LinkedNode(value);
         if (this._head === null) {
             this._head = this._tail = nodeToAdd;
         } else {
@@ -29,12 +29,12 @@
         return this;
     };
 
-    exports.LinkedList.prototype.unshift = function (value) {
+    LinkedList.prototype.unshift = function(value) {
         if (typeof value === 'undefined') {
             throw new Error('Cannot push an undefined value.');
         }
 
-        const nodeToAdd = new exports.LinkedNode(value);
+        const nodeToAdd = new LinkedNode(value);
         if (this._head === null) {
             this._head = this._tail = nodeToAdd;
         } else {
@@ -47,7 +47,7 @@
         return this;
     };
 
-    exports.LinkedList.prototype.pop = function () {
+    LinkedList.prototype.pop = function() {
         if (this._tail === null) {
             return null;
         }
@@ -64,7 +64,7 @@
         return valueToReturn;
     };
 
-    exports.LinkedList.prototype.shift = function () {
+    LinkedList.prototype.shift = function() {
         if (this._head === null) {
             return null;
         }
@@ -76,7 +76,7 @@
         return valueToReturn;
     };
 
-    exports.LinkedList.prototype.remove = function (value) {
+    LinkedList.prototype.remove = function(value) {
         if (this._head === null) {
             return false;
         }
@@ -113,7 +113,7 @@
         return true;
     };
 
-    exports.LinkedList.prototype.inOrder = function (callback) {
+    LinkedList.prototype.inOrder = function(callback) {
         if (typeof callback !== 'function' || callback.length < 1) {
             throw new Error('Passed callback must be of type function and accept a single parameter.');
         }
@@ -127,8 +127,8 @@
         return this;
     };
 
-    exports.LinkedList.prototype.recursiveReverse = function () {
-        var inverse = function (current, next) {
+    LinkedList.prototype.recursiveReverse = function() {
+        var inverse = function(current, next) {
             if (!next) {
                 return;
             }
@@ -155,7 +155,7 @@
         return this;
     };
 
-    exports.LinkedList.prototype.reverse = function () {
+    LinkedList.prototype.reverse = function() {
         if (!(this._head && this._head.next)) {
             return;
         }
@@ -177,7 +177,7 @@
         return this;
     };
 
-    exports.LinkedList.prototype.hasCycle = function () {
+    LinkedList.prototype.hasCycle = function() {
         var fast = this._head;
         var slow = this._head;
 
@@ -201,5 +201,8 @@
 
         return false;
     };
+
+    exports.LinkedNode = LinkedNode;
+    exports.LinkedList = LinkedList;
 
 })(typeof window === 'undefined' ? module.exports : window);

@@ -1,5 +1,5 @@
-(function (exports) {
-    exports.BinaryHeap = function (cmp) {
+(function(exports) {
+    const BinaryHeap = function(cmp) {
         if (typeof cmp !== 'function' || cmp.length < 2) {
             throw new Error('Passed cmp method must be of type function accepting two parameters!');
         }
@@ -9,7 +9,7 @@
         this.size = 0;
     };
 
-    exports.BinaryHeap.prototype.enqueue = function (value) {
+    BinaryHeap.prototype.enqueue = function(value) {
         if (typeof value === 'undefined') {
             throw new Error('cannot enqueue an undefined value!');
         }
@@ -24,11 +24,11 @@
         this._data[index] = value;
     };
 
-    exports.BinaryHeap.prototype.enqueueMany = function (...values) {
+    BinaryHeap.prototype.enqueueMany = function(...values) {
         values.forEach(v => this.enqueue(v));
     };
 
-    exports.BinaryHeap.prototype.dequeue = function () {
+    BinaryHeap.prototype.dequeue = function() {
         if (this.isEmpty) {
             return null;
         }
@@ -47,7 +47,7 @@
         return valueToReturn;
     };
 
-    exports.BinaryHeap.prototype._heapifyDown = function (index, value) {
+    BinaryHeap.prototype._heapifyDown = function(index, value) {
         if (Number.isNaN(index) || index < 0 || index > this.size) {
             throw new Error('Passed index must be a number in the range of the heap size!');
         }
@@ -58,9 +58,7 @@
 
         while (index * 2 + 1 < this._data.length) {
             var smallerKidIndex =
-                this.cmp(this._data[index * 2], this._data[index * 2 + 1]) < 0 ?
-                    index * 2 :
-                    index * 2 + 1;
+                this.cmp(this._data[index * 2], this._data[index * 2 + 1]) < 0 ? index * 2 : index * 2 + 1;
 
             if (this.cmp(this._data[smallerKidIndex], value) < 0) {
                 this._data[index] = this._data[smallerKidIndex];
@@ -80,10 +78,12 @@
         this._data[index] = value;
     };
 
-    Object.defineProperty(exports.BinaryHeap.prototype, 'isEmpty', {
-        get: function () {
+    Object.defineProperty(BinaryHeap.prototype, 'isEmpty', {
+        get: function() {
             return this.size === 0;
         }
     });
+
+    exports.BinaryHeap = BinaryHeap;
 
 })(typeof window === 'undefined' ? module.exports : window);
