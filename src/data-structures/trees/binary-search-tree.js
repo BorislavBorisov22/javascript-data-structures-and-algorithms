@@ -4,7 +4,7 @@
         this.left = null;
         this.right = null;
     };
-    
+
     exports.BinaryTree = function (cmp) {
         if (typeof cmp !== 'function' || cmp.length < 2) {
             throw new Error('Passed cmp parameter must be of type function and accept two parameters')
