@@ -80,7 +80,7 @@
         var nextNode = compareResult < 0 ? node.left : node.right;
         return this._findRecursive(nextNode, value);
     };
-    
+
     exports.BinaryTree.prototype.inOrder = function (callback) {
         if (typeof callback !== 'function' || callback.length < 1) {
             throw new Error('Passed callback parameter must be of type function accepting a tree node as a parameter!');
