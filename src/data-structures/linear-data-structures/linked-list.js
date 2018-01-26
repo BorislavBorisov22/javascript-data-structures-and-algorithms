@@ -3,13 +3,13 @@
         this.value = value;
         this.next = null;
         this.prev = null;
-    }
+    };
 
     exports.LinkedList = function () {
         this._head = null;
         this._tail = null;
         this.size = 0;
-    }
+    };
 
     exports.LinkedList.prototype.push = function (value) {
         if (typeof value === 'undefined') {
@@ -45,7 +45,7 @@
 
         ++this.size;
         return this;
-    }
+    };
 
     exports.LinkedList.prototype.pop = function () {
         if (this._tail === null) {
@@ -62,7 +62,7 @@
 
         --this.size;
         return valueToReturn;
-    }
+    };
 
     exports.LinkedList.prototype.shift = function () {
         if (this._head === null) {
@@ -74,7 +74,7 @@
 
         --this.size;
         return valueToReturn;
-    }
+    };
 
     exports.LinkedList.prototype.remove = function (value) {
         if (this._head === null) {
@@ -125,7 +125,7 @@
         }
 
         return this;
-    }
+    };
 
     exports.LinkedList.prototype.recursiveReverse = function () {
         var inverse = function (current, next) {
