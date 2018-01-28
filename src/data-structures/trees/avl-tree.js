@@ -1,5 +1,5 @@
 (function(exports) {
-    // AVL iterator
+    // Avl node
     const AvlNode = function(value, left, right, parent) {
         this.value = value;
         this.left = left;
@@ -22,10 +22,10 @@
         return AvlNode.getHeight(this.left) - AvlNode.getHeight(this.right);
     };
 
-    // AVL node
-    // const AvlTreeIterator = function(node) {
-    //     this.avlNode = node;
-    // };
+    // AVL Iterator
+    const AvlTreeIterator = function(node) {
+        this.avlNode = node;
+    };
 
     // AVL Tree
     const AvlTree = function() {
