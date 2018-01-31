@@ -1,11 +1,11 @@
-(function (exports) {
-    exports.Node = function (value) {
+(function(exports) {
+    const Node = function(value) {
         this.value = value;
         this.left = null;
         this.right = null;
     };
 
-    exports.BinaryTree = function (cmp) {
+    const BinaryTree = function(cmp) {
         if (typeof cmp !== 'function' || cmp.length < 2) {
             throw new Error('Passed cmp parameter must be of type function and accept two parameters')
         }
@@ -15,13 +15,13 @@
         this.size = 0;
     };
 
-    exports.BinaryTree.prototype.add = function (value) {
+    BinaryTree.prototype.add = function(value) {
         this._root = this._add(this._root, value);
     };
 
-    exports.BinaryTree.prototype._add = function (node, value) {
+    BinaryTree.prototype._add = function(node, value) {
         if (node === null) {
-            node = new exports.Node(value);
+            node = new Node(value);
             ++this.size;
             return node;
         }
@@ -36,11 +36,11 @@
         return node;
     };
 
-    exports.BinaryTree.prototype.addMany = function (...values) {
+    BinaryTree.prototype.addMany = function(...values) {
         values.forEach(v => this.add(v));
     };
 
-    exports.BinaryTree.prototype.find = function (value) {
+    BinaryTree.prototype.find = function(value) {
         if (typeof value === 'undefined') {
             return null;
         }
@@ -63,11 +63,11 @@
         return current;
     };
 
-    exports.BinaryTree.prototype.findRecursive = function (value) {
+    BinaryTree.prototype.findRecursive = function(value) {
         return this._findRecursive(this._root, value);
     };
 
-    exports.BinaryTree.prototype._findRecursive = function (node, value) {
+    BinaryTree.prototype._findRecursive = function(node, value) {
         if (!node) {
             return null;
         }
@@ -81,7 +81,7 @@
         return this._findRecursive(nextNode, value);
     };
 
-    exports.BinaryTree.prototype.inOrder = function (callback) {
+    BinaryTree.prototype.inOrder = function(callback) {
         if (typeof callback !== 'function' || callback.length < 1) {
             throw new Error('Passed callback parameter must be of type function accepting a tree node as a parameter!');
         }
@@ -89,7 +89,7 @@
         this._inOrder(this._root, callback);
     };
 
-    exports.BinaryTree.prototype._inOrder = function (node, callback) {
+    BinaryTree.prototype._inOrder = function(node, callback) {
         if (!node) {
             return;
         }
@@ -99,15 +99,15 @@
         this._inOrder(node.right, callback);
     };
 
-    exports.BinaryTree.prototype.findMin = function () {
+    BinaryTree.prototype.findMin = function() {
         return this._findOptimal('left');
     };
 
-    exports.BinaryTree.prototype.findMax = function () {
+    BinaryTree.prototype.findMax = function() {
         return this._findOptimal('right');
     };
 
-    exports.BinaryTree.prototype._findOptimal = function (childPropertyName) {
+    BinaryTree.prototype._findOptimal = function(childPropertyName) {
         if (childPropertyName !== 'left' && childPropertyName !== 'right') {
             throw new Error('Passed childPropertyName parameter must be either left or right!');
         }
@@ -125,11 +125,12 @@
         return current;
     };
 
-    exports.BinaryTree.prototype.remove = function (value) {
+    BinaryTree.prototype.remove = function(value) {
         this._root = this._remove(this._root, value);
+        return this;
     };
 
-    exports.BinaryTree.prototype._remove = function (node, value) {
+    BinaryTree.prototype._remove = function(node, value) {
         if (!node) {
             return null;
         }
@@ -171,11 +172,11 @@
         }
     };
 
-    exports.BinaryTree.prototype.getHeight = function () {
+    BinaryTree.prototype.getHeight = function() {
         return this._getHeight(this._root);
     };
 
-    exports.BinaryTree.prototype._getHeight = function (node) {
+    BinaryTree.prototype._getHeight = function(node) {
         if (!node) {
             return 0;
         }
@@ -183,25 +184,25 @@
         return Math.max(this._getHeight(node.left), this._getHeight(node.right)) + 1;
     };
 
-    exports.BinaryTree.prototype.isBalanced = function () {
+    BinaryTree.prototype.isBalanced = function() {
         return this._isBalanced(this._root);
     };
 
-    exports.BinaryTree.prototype._isBalanced = function (node) {
+    BinaryTree.prototype._isBalanced = function(node) {
         if (!node) {
             return true;
         }
 
-        var leftHeight = this._getHeight(node.left);
-        var rightHeight = this._getHeight(node.right);
+        const leftHeight = this._getHeight(node.left);
+        const rightHeight = this._getHeight(node.right);
 
-        var leftIsBalanced = this._isBalanced(node.left);
-        var rightIsBalanced = this._isBalanced(node.right);
+        const leftIsBalanced = this._isBalanced(node.left);
+        const rightIsBalanced = this._isBalanced(node.right);
 
         return Math.abs(leftHeight - rightHeight) <= 1 && leftIsBalanced && rightIsBalanced;
     };
 
-    exports.BinaryTree.prototype.existsInSubtree = function (node) {
+    BinaryTree.prototype.existsInSubtree = function(node) {
         if (!node) {
             throw new Error('Passed node parameter is null or undefined!');
         }
@@ -209,7 +210,7 @@
         return this._existsInSubtree(this._root, node);
     };
 
-    exports.prototype.BinaryTree._existsInSubtree = function (currentNode, targetNode) {
+    BinaryTree.prototype._existsInSubtree = function(currentNode, targetNode) {
         if (!currentNode) {
             return false;
         }
@@ -221,4 +222,35 @@
         return this._existsInSubtree(currentNode.left, targetNode) ||
             this._existsInSubtree(currentNode.right, targetNode);
     };
+
+    BinaryTree.prototype.lowestCommonAncestor = function(firstNode, secondNode) {
+        if (!(firstNode && secondNode)) {
+            throw new Error('Passed node cannot be undefined or null!');
+        }
+
+        return this._lowestCommonAncestor(this._root, firstNode, secondNode);
+    };
+
+    BinaryTree.prototype._lowestCommonAncestor = function(currentNode, firstNode, secondNode) {
+        const isFirstInLeft = this._existsInSubtree(currentNode.left, firstNode);
+        const isFirstInRight = this._existsInSubtree(currentNode.right, firstNode);
+
+        const isSecondInLeft = this._existsInSubtree(currentNode.left, secondNode);
+        const isSecondInRight = this._existsInSubtree(currentNode.right, secondNode);
+
+        const areInSeperateBranches = (isFirstInLeft && isSecondInRight) || (isFirstInRight && isSecondInLeft);
+
+        if (areInSeperateBranches) {
+            return currentNode;
+        } else if (isFirstInLeft && isSecondInLeft) {
+            return this._lowestCommonAncestor(currentNode.left, firstNode, secondNode);
+        } else if (isFirstInRight && isSecondInRight) {
+            return this._lowestCommonAncestor(currentNode.right, firstNode, secondNode);
+        } else {
+            return null;
+        }
+    };
+
+    exports.BinaryTree = BinaryTree;
+    exports.Node = Node;
 })(typeof window === 'undefined' ? module.exports : window);
