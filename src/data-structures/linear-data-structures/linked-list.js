@@ -115,13 +115,15 @@
 
     LinkedList.prototype.inOrder = function(callback) {
         if (typeof callback !== 'function' || callback.length < 1) {
-            throw new Error('Passed callback must be of type function and accept a single parameter.');
+            throw new Error('Passed callback must be of type function and accept a at least a single parameter.');
         }
 
         var current = this._head;
+        let index = 0;
         while (current) {
-            callback(current);
+            callback(current, index);
             current = current.next;
+            ++index;
         }
 
         return this;
