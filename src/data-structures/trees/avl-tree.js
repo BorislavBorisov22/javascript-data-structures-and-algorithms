@@ -91,6 +91,46 @@
         return node;
     };
 
+    AvlTree.prototype.delete = function(value) {
+        this.root = this._delete(this.root, value);
+    };
+
+    AvlTree.prototype._delete = function(node, value) {
+        if (node === null) {
+            return null;
+        }
+
+        const cmpResult = this.cmp(value, node.value);
+        if (cmpResult === 0) {
+            const left = node.left;
+            const right = node.right;
+
+            if (left === null) {
+                return right;
+            }
+
+            if (right === null) {
+                return left;
+            }
+
+            let max = node.left;
+            while (max.right !== null) {
+                max = max.right;
+            }
+
+            node.value = max.value;
+            node.left = this._delete(node.left, max.value);
+        } else if (cmpResult < 0) {
+            node.left = this._delete(node.left, value);
+        } else if (cmpResult > 0) {
+            node.right = this._delete(node.right, value);
+        }
+
+        node = this.balance(node);
+        AvlNode.updateHeight(node);
+        return node;
+    };
+
     AvlTree.prototype.inOrder = function(callback) {
         this._inOrder(this.root, callback);
     };
@@ -109,10 +149,8 @@
     exports.AvlNode = AvlNode;
 })(typeof window === 'undefined' ? module.exports : window);
 
-
 const tree = new module.exports.AvlTree((a, b) => a - b);
-[1, 0, 3, 4, 5].forEach(n => tree.insert(n));
-tree.insert(2);
-
+[2, 1, 4, 3, 5].forEach(n => tree.insert(n));
+tree.delete(1);
 // tree.inOrder(({ value, height }) => console.log({ value, height }));
 console.log(tree.root);
