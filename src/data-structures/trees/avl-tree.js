@@ -113,12 +113,9 @@
                 return left;
             }
 
-            let max = node.left;
-            while (max.right !== null) {
-                max = max.right;
-            }
-
+            const max = this.getMax();
             node.value = max.value;
+
             node.left = this._delete(node.left, max.value);
         } else if (cmpResult < 0) {
             node.left = this._delete(node.left, value);
@@ -129,6 +126,23 @@
         node = this.balance(node);
         AvlNode.updateHeight(node);
         return node;
+    };
+
+    AvlTree.prototype._getOptimal = function(root, childNodePropertyName) {
+        let current = root;
+        while (current[childNodePropertyName] !== null) {
+            current = current[childNodePropertyName];
+        }
+
+        return current;
+    };
+
+    AvlTree.prototype.getMin = function(root) {
+        return this.getOptimal(root, 'left');
+    };
+
+    AvlTree.prototype.getMax = function(root) {
+        return this.getOptimal(root, 'right');
     };
 
     AvlTree.prototype.inOrder = function(callback) {
