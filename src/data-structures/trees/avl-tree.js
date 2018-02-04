@@ -149,6 +149,25 @@
         this._inOrder(this.root, callback);
     };
 
+    AvlTree.prototype.find = function(value) {
+        return this._find(this.root, value);
+    };
+
+    AvlTree.prototype._find = function(node, value) {
+        if (node === null) {
+            return null;
+        }
+
+        const cmpResult = this.cmp(value, node.value);
+        if (cmpResult === 0) {
+            return node;
+        }
+
+        return cmpResult < 0 ?
+            this._find(node.left, value) :
+            this._find(node.right, value);
+    };
+
     AvlTree.prototype._inOrder = function(node, callback) {
         if (node === null) {
             return;
