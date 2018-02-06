@@ -1,4 +1,6 @@
 (function(exports) {
+    const defaultComparator = (a, b) => a - b;
+
     const AvlNode = function(value) {
         this.value = value;
         this.height = 1;
@@ -39,7 +41,7 @@
     };
 
     const AvlTree = function(cmp) {
-        this.cmp = cmp;
+        this.cmp = cmp || defaultComparator;
         this.root = null;
     };
 
@@ -166,6 +168,10 @@
         return cmpResult < 0 ?
             this._find(node.left, value) :
             this._find(node.right, value);
+    };
+
+    AvlTree.prototype.contains = function(value) {
+        return this.find(value) !== null;
     };
 
     AvlTree.prototype._inOrder = function(node, callback) {
