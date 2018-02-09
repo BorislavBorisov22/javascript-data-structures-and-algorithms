@@ -1,8 +1,8 @@
 (function(exports) {
 
     const color = {
-        BLACK: 0,
-        RED: 1
+        BLACK: false,
+        RED: true
     };
 
     const RedBlackNode = function(value) {
