@@ -13,6 +13,10 @@
         this.color = color.RED;
     };
 
+    Node.prototype.updateCount = function() {
+        this.count = Node.count(this.left) + Node.count(this.right) + 1;
+    };
+
     Node.count = function(node) {
         return node === null ? 0 : node.count;
     };
@@ -29,6 +33,8 @@
         newNode.color = node.color;
         node.color = color.RED;
 
+        node.updateCount();
+
         return newNode;
     };
 
@@ -39,6 +45,8 @@
 
         newNode.color = node.color;
         node.color = color.RED;
+
+        node.updateCount();
 
         return newNode;
     };
@@ -89,6 +97,7 @@
             node = Node.flipColors(node);
         }
 
+        node.updateCount();
         return node;
     };
 
@@ -136,9 +145,4 @@ const tree = new module.exports.RedBlackTree((a, b) => a - b);
 const values = [30, 20, 40, 35, 37, 45, 44, 50, 47];
 values.forEach(value => tree.insert(value));
 
-console.log(tree.contains(20));
-console.log(tree.contains(50));
-console.log(tree.contains(100));
-
-console.log(tree.find(44));
-console.log(tree.find(11));
+console.log(tree.root.count);
