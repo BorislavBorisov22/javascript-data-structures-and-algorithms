@@ -7,7 +7,7 @@
 
     const RedBlackNode = function(value) {
         this.value = value;
-        this.color = color.BLACK;
+        this.color = color.RED;
         this.left = null;
         this.right = null;
     };
