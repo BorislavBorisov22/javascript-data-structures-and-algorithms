@@ -106,6 +106,28 @@
         this._inOrder(node.right);
     };
 
+    RedBlackTree.prototype.find = function(value) {
+        return this._find(this.root, value);
+    };
+
+    RedBlackTree.prototype._find = function(node, value) {
+        if (node === null) {
+            return null;
+        }
+
+        const compareResult = this.cmp(value, node.value);
+        if (compareResult === 0) {
+            return node;
+        }
+
+        const childKey = compareResult < 0 ? 'left' : 'right';
+        return this._find(node[childKey], value);
+    };
+
+    RedBlackTree.prototype.contains = function(value) {
+        return this.find(value) !== null;
+    };
+
     exports.RedBlackTree = RedBlackTree;
 
 })(typeof window === 'undefined' ? module.exports : window);
@@ -114,4 +136,9 @@ const tree = new module.exports.RedBlackTree((a, b) => a - b);
 const values = [30, 20, 40, 35, 37, 45, 44, 50, 47];
 values.forEach(value => tree.insert(value));
 
-console.log(tree);
+console.log(tree.contains(20));
+console.log(tree.contains(50));
+console.log(tree.contains(100));
+
+console.log(tree.find(44));
+console.log(tree.find(11));
