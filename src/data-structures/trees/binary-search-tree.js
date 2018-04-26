@@ -3,6 +3,7 @@ const Node = require('./node');
 const defaultComparator = (a, b) => a - b;
 
 class BinarySearchTree {
+
     constructor(cmp) {
         this._root = null;
         this.size = 0;
@@ -47,16 +48,40 @@ class BinarySearchTree {
         return node;
     }
 
-    remove(value) {
-        this._root = this._remove(this._root, value);
+    _findMaxNode(node) {
+        while (node.right !== null) {
+            node = node.right;
+        }
+
+        return node;
     }
 
-    _findMin(node) {
+    _findMinNode(node) {
         while (node.left !== null) {
             node = node.left;
         }
 
         return node;
+    }
+
+    _optimal(childPropName) {
+        let node = this._root;
+
+        while (node[childPropName] !== null) {
+            node = node[childPropName];
+        }
+    }
+
+    min() {
+        return this._root === null ? this._root : this._findMinNode(this._root).value;
+    }
+
+    max() {
+        return this._root === null ? this._root : this._findMaxNode(this._root).value;
+    }
+
+    remove(value) {
+        this._root = this._remove(this._root, value);
     }
 
     _remove(node, value) {
@@ -101,6 +126,28 @@ class BinarySearchTree {
         }
     }
 
+    lowestCommonAncestor(firstNode, secondNode) {
+        return this._lowestCommonAncestor(this._root, firstNode, secondNode);
+    }
+
+    _lowestCommonAncestor(currentNode, firstNode, secondNode) {
+        const firstInLeft = this._existsInSubtree(currentNode.left, firstNode);
+        const secondInLeft = this._existsInSubtree(currentNode.left, secondNode);
+
+        const firstInRight = this._existsInSubtree(currentNode.right, firstNode);
+        const secondInRight = this._existsInSubtree(currentNode.right, secondNode);
+
+        if ((firstInLeft && secondInRight) || (firstInRight && secondInLeft)) {
+            return currentNode;
+        } else if (firstInLeft && secondInLeft) {
+            return this._existsInSubtree(currentNode.left, firstNode, secondInLeft);
+        } else if (firstInRight && secondInRight) {
+            return this._existsInSubtree(currentNode.right, firstNode, secondNode);
+        }
+
+        return false;
+    }
+
     existsInSubtree(root, targetNode) {
         return this._existsInSubtree(root, targetNode);
     }
@@ -117,14 +164,4 @@ class BinarySearchTree {
     }
 }
 
-const tree = new BinarySearchTree();
-[0, 5, 6, 12, 33, 9, 5.5, 5.3, 5.35, 5.7, 5.8].forEach((value) => tree.insert(value));
-
-tree.inOrder((node) => console.log(node.value));
-console.log();
-
-tree.remove(5);
-
-tree.inOrder((node) => console.log(node.value));
-
-module.exports = BinarySearchTree;
+module.exports = BinarySearchTree
