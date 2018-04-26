@@ -148,6 +148,28 @@ class BinarySearchTree {
         return false;
     }
 
+    isBalanced() {
+        return this._isBalance(this._root);
+    }
+
+    _isBalanced(node) {
+        if (!node) {
+            return true;
+        }
+
+        return this._isBalanced(node.left) &&
+            this._isBalanced(node.right) &&
+            Math.abs(this.getHeight(node.left) - this.getHeight.getHeight(node.right)) <= 1;
+    }
+
+    getHeight(node) {
+        if (!node) {
+            return 0;
+        }
+
+        return Math.max(this._height(node.left), this._height(node.right)) + 1;
+    }
+
     existsInSubtree(root, targetNode) {
         return this._existsInSubtree(root, targetNode);
     }
