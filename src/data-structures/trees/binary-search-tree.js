@@ -6,9 +6,13 @@ class BinarySearchTree {
 
     constructor(cmp) {
         this._root = null;
-        this.size = 0;
+        this._size = 0;
 
         this.cmp = cmp || defaultComparator;
+    }
+
+    get size() {
+        return this._size;
     }
 
     inOrder(callback) {
@@ -35,6 +39,7 @@ class BinarySearchTree {
 
     _insert(node, value) {
         if (!node) {
+            this._size++;
             return new Node(value);
         }
 
@@ -48,7 +53,11 @@ class BinarySearchTree {
         return node;
     }
 
-    _findMaxNode(node) {
+    findMaxNode(node) {
+        if (!node) {
+            return null;
+        }
+
         while (node.right !== null) {
             node = node.right;
         }
@@ -56,9 +65,30 @@ class BinarySearchTree {
         return node;
     }
 
-    _findMinNode(node) {
+    findMinNode(node) {
+        if (!node) {
+            return null;
+        }
+
         while (node.left !== null) {
             node = node.left;
+        }
+
+        return node;
+    }
+
+    find(node) {
+        let currentNode = this._root;
+
+        while (node !== null) {
+            const compareResult = this.cmp(node.value, currentNode.value);
+            if (compareResult === 0) {
+                return node;
+            } else if (compareResult < 0) {
+                node = node.left;
+            } else {
+                node = node.right;
+            }
         }
 
         return node;
@@ -73,11 +103,11 @@ class BinarySearchTree {
     }
 
     min() {
-        return this._root === null ? this._root : this._findMinNode(this._root).value;
+        return this._root === null ? this._root : this.findMinNode(this._root).value;
     }
 
     max() {
-        return this._root === null ? this._root : this._findMaxNode(this._root).value;
+        return this._root === null ? this._root : this.findMaxNode(this._root).value;
     }
 
     remove(value) {
@@ -91,6 +121,7 @@ class BinarySearchTree {
 
         const compareResult = this.cmp(value, node.value);
         if (compareResult === 0) {
+            this._size--;
 
             if (!node.left) {
                 return node.right;
@@ -145,7 +176,7 @@ class BinarySearchTree {
             return this._existsInSubtree(currentNode.right, firstNode, secondNode);
         }
 
-        return false;
+        return null;
     }
 
     isBalanced() {
@@ -186,4 +217,4 @@ class BinarySearchTree {
     }
 }
 
-module.exports = BinarySearchTree
+module.exports = BinarySearchTree;

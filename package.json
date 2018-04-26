@@ -5,6 +5,9 @@
     "repository": "https://github.com/BorislavBorisov22/JavaScriptAlgorithms.git",
     "author": "BorislavBorisov22 <borislavborisov22@abv.bg>",
     "license": "MIT",
+    "scripts": {
+        "test": "gulp test"
+    },
     "devDependencies": {
         "@types/chai": "^4.1.1",
         "@types/gulp": "^4.0.5",

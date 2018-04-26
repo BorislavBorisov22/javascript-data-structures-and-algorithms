@@ -46,7 +46,7 @@
         ],
         "no-empty": 2,
         "no-undef": 2,
-        "linebreak-style": 2,
+        "linebreak-style": 0,
         "max-depth": [
             2,
             4
