@@ -213,7 +213,9 @@ class BinarySearchTree {
         const compareResult = this.cmp(targetNode.node, node.value);
         return compareResult === 0 ?
             true :
-            compareResult < 0 ? this._existsInSubtree(node.left) : this._existsInSubtree(node.right);
+            compareResult < 0 ?
+                this._existsInSubtree(node.left) :
+                this._existsInSubtree(node.right);
     }
 }
 
