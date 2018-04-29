@@ -217,13 +217,4 @@ class BinarySearchTree {
     }
 }
 
-const tree = new BinarySearchTree();
-
-const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
-values.forEach(tree.insert.bind(tree));
-
-const expectedNode = tree._root.right.right;
-
-const actualNode = tree.find(expectedNode);
-console.log(actualNode);
 module.exports = BinarySearchTree;
