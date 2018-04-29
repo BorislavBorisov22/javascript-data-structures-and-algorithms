@@ -181,7 +181,7 @@ class BinarySearchTree {
     }
 
     isBalanced() {
-        return this._isBalance(this._root);
+        return this._isBalanced(this._root);
     }
 
     _isBalanced(node) {
@@ -191,7 +191,7 @@ class BinarySearchTree {
 
         return this._isBalanced(node.left) &&
             this._isBalanced(node.right) &&
-            Math.abs(this.getHeight(node.left) - this.getHeight.getHeight(node.right)) <= 1;
+            Math.abs(this.getHeight(node.left) - this.getHeight(node.right)) <= 1;
     }
 
     getHeight(node) {
@@ -199,7 +199,7 @@ class BinarySearchTree {
             return 0;
         }
 
-        return Math.max(this._height(node.left), this._height(node.right)) + 1;
+        return Math.max(this.getHeight(node.left), this.getHeight(node.right)) + 1;
     }
 
     existsInSubtree(root, targetNode) {

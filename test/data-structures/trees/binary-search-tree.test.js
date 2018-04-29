@@ -203,6 +203,41 @@ describe('BinarySearchTree tests', () => {
             let secondNode = tree._root.right.right.right;
             let actualCommonAncestor = tree.lowestCommonAncestor(firstNode, secondNode);
             expect(expectedCommonAncestor).to.deep.equal(actualCommonAncestor);
+
+            expectedCommonAncestor = tree._root;
+            // node with value 9
+            firstNode = tree._root.right.right.left;
+            // node with value -1
+            secondNode = tree._root.left.left;
+            actualCommonAncestor = tree.lowestCommonAncestor(firstNode, secondNode);
+            expect(expectedCommonAncestor).to.deep.equal(actualCommonAncestor);
+        });
+
+        it('expect to return null when passe nodes do not have common ancestor', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            const firstNode = tree._root.left;
+            const secondNode = tree._root;
+
+            const commonAncestor = tree.lowestCommonAncestor(firstNode, secondNode);
+            expect(commonAncestor).to.be.null;
+        });
+    });
+
+    describe('isBalanced', () => {
+        it('expect to return true when each node\'s left and right childs count abs difference is 1 or 0', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            expect(tree.isBalanced()).to.be.true;
+        });
+
+        it('expect to return false when there is a node with left and right childs differnence more than 1', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7, -5, -10];
+            values.forEach(tree.insert.bind(tree));
+
+            expect(tree.isBalanced()).to.be.false;
         });
     });
 });
