@@ -240,4 +240,28 @@ describe('BinarySearchTree tests', () => {
             expect(tree.isBalanced()).to.be.false;
         });
     });
+
+    describe('getHeight', () => {
+        it('expect to return the correct height of a subtree by a prodived node', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7, -5, -10];
+            values.forEach(tree.insert.bind(tree));
+
+            expect(tree.getHeight(tree._root)).to.equal(5);
+            expect(tree.getHeight(tree._root.right.right)).to.equal(2);
+        });
+
+        it('expect to return 0 when passed node is null or undefined', () => {
+            expect(tree.getHeight(null)).to.equal(0);
+            expect(tree.getHeight(undefined)).to.equal(0);
+        });
+
+        it('expect to return 1 when passed node does node have any children', () => {
+            const node = {
+                left: null,
+                right: null
+            };
+
+            expect(tree.getHeight(node)).to.equal(1);
+        });
+    });
 });
