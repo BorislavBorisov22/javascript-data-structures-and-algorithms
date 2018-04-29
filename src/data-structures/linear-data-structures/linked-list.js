@@ -1,17 +1,19 @@
-(function(exports) {
-    const LinkedNode = function(value) {
+class LinkedNode {
+    constructor(value) {
         this.value = value;
         this.next = null;
         this.prev = null;
-    };
+    }
+}
 
-    const LinkedList = function() {
+class LinkedList {
+    constructor() {
         this._head = null;
         this._tail = null;
         this.size = 0;
-    };
+    }
 
-    LinkedList.prototype.push = function(value) {
+    push(value) {
         if (typeof value === 'undefined') {
             throw new Error('Cannot push an undefined value.');
         }
@@ -27,9 +29,9 @@
 
         ++this.size;
         return this;
-    };
+    }
 
-    LinkedList.prototype.unshift = function(value) {
+    unshift(value) {
         if (typeof value === 'undefined') {
             throw new Error('Cannot push an undefined value.');
         }
@@ -45,9 +47,9 @@
 
         ++this.size;
         return this;
-    };
+    }
 
-    LinkedList.prototype.pop = function() {
+    pop() {
         if (this._tail === null) {
             return null;
         }
@@ -62,9 +64,9 @@
 
         --this.size;
         return valueToReturn;
-    };
+    }
 
-    LinkedList.prototype.shift = function() {
+    shift() {
         if (this._head === null) {
             return null;
         }
@@ -74,9 +76,9 @@
 
         --this.size;
         return valueToReturn;
-    };
+    }
 
-    LinkedList.prototype.remove = function(value) {
+    remove(value) {
         if (this._head === null) {
             return false;
         }
@@ -111,9 +113,9 @@
         }
 
         return true;
-    };
+    }
 
-    LinkedList.prototype.inOrder = function(callback) {
+    inOrder(callback) {
         if (typeof callback !== 'function' || callback.length < 1) {
             throw new Error('Passed callback must be of type function and accept a at least a single parameter.');
         }
@@ -127,10 +129,10 @@
         }
 
         return this;
-    };
+    }
 
-    LinkedList.prototype.recursiveReverse = function() {
-        var inverse = function(current, next) {
+    recursiveReverse() {
+        const inverse = (current, next) => {
             if (!next) {
                 return;
             }
@@ -155,15 +157,15 @@
         this._tail.next = null;
         this._head.prev = null;
         return this;
-    };
+    }
 
-    LinkedList.prototype.reverse = function() {
+    reverse() {
         if (!(this._head && this._head.next)) {
             return;
         }
 
-        var current = this._head;
-        var next;
+        let current = this._head;
+        let next;
         while (current) {
             next = current.next;
 
@@ -173,15 +175,15 @@
             current = next;
         }
 
-        var headStore = this._head;
+        const headStore = this._head;
         this._head = this._tail;
         this._tail = headStore;
         return this;
-    };
+    }
 
-    LinkedList.prototype.hasCycle = function() {
-        var fast = this._head;
-        var slow = this._head;
+    hasCycle() {
+        let fast = this._head;
+        let slow = this._head;
 
         while (true) {
             if (fast === null) {
@@ -202,9 +204,7 @@
         }
 
         return false;
-    };
+    }
+}
 
-    exports.LinkedNode = LinkedNode;
-    exports.LinkedList = LinkedList;
-
-})(typeof window === 'undefined' ? module.exports : window);
+module.exports = LinkedList;
