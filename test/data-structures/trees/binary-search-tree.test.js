@@ -72,4 +72,109 @@ describe('BinarySearchTree tests', () => {
             expect(min).to.be.null;
         });
     });
+
+    describe('find', () => {
+        it('expect find method to find the correct node when passed existing node', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            let expectedNode = tree._root.right.right;
+            let actualNode = tree.find(12);
+            expect(actualNode).to.eql(expectedNode);
+
+            expectedNode = tree._root.right.left.right;
+            actualNode = tree.find(5.7);
+            expect(actualNode).to.eql(expectedNode);
+        });
+
+        it('expect find method to return null when passed value doest not exist in the tree', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            const targetNode = tree.find(64);
+            expect(targetNode).to.be.null;
+        });
+    });
+
+    describe('min', () => {
+        it('expect to return the correct min value from the tree', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            const minValue = tree.min();
+            expect(minValue).to.equal(-1);
+        });
+
+        it('expect to return null when no elements are present in the tree', () => {
+            const min = tree.min();
+            expect(min).to.be.null;
+        });
+    });
+
+    describe('max', () => {
+        it('expect to return the correct max value from the tree', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            const maxValue = tree.max();
+            expect(maxValue).to.equal(33);
+        });
+
+        it('expect to return null when no elements are present in the tree', () => {
+            const max = tree.max();
+            expect(max).to.be.null;
+        });
+    });
+
+    describe('inOrder', () => {
+        it('expect in order to iterates over nodes in a sorted node order', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            let nodes = [];
+            tree.inOrder((node) => nodes.push(node.value));
+
+            expect(nodes).to.deep.equal(values.sort((a, b) => a - b));
+        });
+    });
+
+    describe('remove', () => {
+        it('expect to remove node from the tree correctly change the target node', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            expect(tree._root.right.right.value).to.equal(12);
+
+            tree.remove(12);
+
+            expect(tree.size).to.equal(values.length - 1);
+            expect(tree._root.right.right.value).to.equal(33);
+
+            tree.remove(5.5);
+
+            expect(tree.size).to.equal(values.length - 2);
+            expect(tree._root.right.left.value).to.equal(5.7);
+        });
+
+        it('expect to always remain a valud binary search tree structure when removing elements', () => {
+            const expectToBeSorted = (arr) => {
+                expect(arr.slice().sort((a, b) => a - b)).to.deep.equal(arr);
+            };
+
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            const removeValues = [-1, 12, 33, 5, 5.5, 5.7, 0, 9, 6];
+
+            removeValues.forEach((value, index) => {
+                tree.remove(value);
+
+                expect(tree.size).to.equal(values.length - 1 - index);
+
+                let inOrder = [];
+                tree.inOrder((node) => inOrder.push(node.value));
+                expectToBeSorted(inOrder);
+            });
+        });
+    });
 });

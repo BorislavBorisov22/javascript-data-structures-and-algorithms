@@ -77,21 +77,21 @@ class BinarySearchTree {
         return node;
     }
 
-    find(node) {
+    find(value) {
         let currentNode = this._root;
 
-        while (node !== null) {
-            const compareResult = this.cmp(node.value, currentNode.value);
+        while (currentNode !== null) {
+            const compareResult = this.cmp(value, currentNode.value);
             if (compareResult === 0) {
-                return node;
+                return currentNode;
             } else if (compareResult < 0) {
-                node = node.left;
+                currentNode = currentNode.left;
             } else {
-                node = node.right;
+                currentNode = currentNode.right;
             }
         }
 
-        return node;
+        return null;
     }
 
     _optimal(childPropName) {
@@ -217,4 +217,13 @@ class BinarySearchTree {
     }
 }
 
+const tree = new BinarySearchTree();
+
+const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+values.forEach(tree.insert.bind(tree));
+
+const expectedNode = tree._root.right.right;
+
+const actualNode = tree.find(expectedNode);
+console.log(actualNode);
 module.exports = BinarySearchTree;
