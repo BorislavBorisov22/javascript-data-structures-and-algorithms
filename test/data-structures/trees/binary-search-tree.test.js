@@ -264,4 +264,29 @@ describe('BinarySearchTree tests', () => {
             expect(tree.getHeight(node)).to.equal(1);
         });
     });
+
+    describe('existsInSubtree', () => {
+        it('expect to return true when searched node exists in the provided subree', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7, -5, -10];
+            values.forEach(tree.insert.bind(tree));
+
+            const exists = tree.existsInSubtree(tree._root, tree._root.right.left);
+            expect(exists).to.be.true;
+        });
+
+        it('expect to return false when searched node does not exists in provided subtree', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7, -5, -10];
+            values.forEach(tree.insert.bind(tree));
+
+            const exists = tree.existsInSubtree(tree._root.left, tree._root.right.left);
+            expect(exists).to.be.false;
+        });
+
+        it('expect to throw when passed targateNode or root is null or undefined', () => {
+            expect(() => { tree.existsInSubtree({}, null) }).to.throw();
+            expect(() => { tree.existsInSubtree({}, undefined) }).to.throw();
+            expect(() => { tree.existsInSubtree(null, {}) }).to.throw();
+            expect(() => { tree.existsInSubtree(undefined, {}) }).to.throw();
+        });
+    });
 });

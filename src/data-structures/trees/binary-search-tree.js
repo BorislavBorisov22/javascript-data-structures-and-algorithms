@@ -203,6 +203,10 @@ class BinarySearchTree {
     }
 
     existsInSubtree(root, targetNode) {
+        if (!root || !targetNode) {
+            throw new Error('passed root of subtree and targetNode must be defined!')
+        }
+
         return this._existsInSubtree(root, targetNode);
     }
 
@@ -219,17 +223,5 @@ class BinarySearchTree {
             this._existsInSubtree(node.left, targetNode) : this._existsInSubtree(node.right, targetNode);
     }
 }
-
-const tree = new BinarySearchTree();
-const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
-values.forEach(tree.insert.bind(tree));
-
-let expectedCommonAncestor = tree._root.right;
-// node with value 5.7
-let firstNode = tree._root.right.left.right;
-// node with value 33
-let secondNode = tree._root.right.right.right;
-let actualCommonAncestor = tree.lowestCommonAncestor(firstNode, secondNode);
-// expect(expectedCommonAncestor).to.deep.equal(actualCommonAncestor);
 
 module.exports = BinarySearchTree;
