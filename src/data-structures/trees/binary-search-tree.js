@@ -172,9 +172,9 @@ class BinarySearchTree {
         if ((firstInLeft && secondInRight) || (firstInRight && secondInLeft)) {
             return currentNode;
         } else if (firstInLeft && secondInLeft) {
-            return this._existsInSubtree(currentNode.left, firstNode, secondInLeft);
+            return this._lowestCommonAncestor(currentNode.left, firstNode, secondInLeft);
         } else if (firstInRight && secondInRight) {
-            return this._existsInSubtree(currentNode.right, firstNode, secondNode);
+            return this._lowestCommonAncestor(currentNode.right, firstNode, secondNode);
         }
 
         return null;
@@ -211,32 +211,25 @@ class BinarySearchTree {
             return false;
         }
 
-        const compareResult = this.cmp(targetNode.node, node.value);
+        const compareResult = this.cmp(targetNode.value, node.value);
         return compareResult === 0 ?
             true :
-            compareResult < 0 ? this._existsInSubtree(node.left) : this._existsInSubtree(node.right);
+            compareResult < 0 ?
+            // eslint-disable-next-line
+            this._existsInSubtree(node.left, targetNode) : this._existsInSubtree(node.right, targetNode);
     }
 }
 
 const tree = new BinarySearchTree();
-
-// const expectToBeSorted = (arr) => {
-//     // arr.slice().sort((a, b) => a - b)).to.deep.equal(arr);
-// };
-
 const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
 values.forEach(tree.insert.bind(tree));
 
-const removeValues = [-1, 12, 33, 5, 5.5, 5.7, 0, 9, 6];
-
-removeValues.forEach((value) => {
-    tree.remove(value);
-    //expect(tree.size).to.equal(values.length - index - 1);
-
-    let inOrder = [];
-    tree.inOrder((node) => inOrder.push(node.value));
-    console.log(inOrder);
-    // expectToBeSorted(inOrder);
-});
+let expectedCommonAncestor = tree._root.right;
+// node with value 5.7
+let firstNode = tree._root.right.left.right;
+// node with value 33
+let secondNode = tree._root.right.right.right;
+let actualCommonAncestor = tree.lowestCommonAncestor(firstNode, secondNode);
+// expect(expectedCommonAncestor).to.deep.equal(actualCommonAncestor);
 
 module.exports = BinarySearchTree;

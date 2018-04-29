@@ -173,9 +173,36 @@ describe('BinarySearchTree tests', () => {
 
                 let inOrder = [];
                 tree.inOrder((node) => inOrder.push(node.value));
-                console.log(inOrder);
                 expectToBeSorted(inOrder);
             });
+        });
+
+        it('expect to not changed size and tree elements when removing non-existing element', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            tree.remove(120);
+
+            let inOrder = [];
+            tree.inOrder((node) => inOrder.push(node.value));
+
+            expect(tree.size).to.equal(values.length);
+            expect(inOrder).to.deep.equal(values.sort((a, b) => a - b));
+        });
+    });
+
+    describe('lowest common ancestor', () => {
+        it('expect to return the correct lowest common ancestor of two nodes when such exists', () => {
+            const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+            values.forEach(tree.insert.bind(tree));
+
+            let expectedCommonAncestor = tree._root.right;
+            // node with value 5.7
+            let firstNode = tree._root.right.left.right;
+            // node with value 33
+            let secondNode = tree._root.right.right.right;
+            let actualCommonAncestor = tree.lowestCommonAncestor(firstNode, secondNode);
+            expect(expectedCommonAncestor).to.deep.equal(actualCommonAncestor);
         });
     });
 });
