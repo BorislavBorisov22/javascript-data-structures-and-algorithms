@@ -1,4 +1,4 @@
-const { Stack } = require('../../../src/data-structures/linear-data-structures/stack');
+const Stack = require('../../../src/data-structures/linear-data-structures/stack');
 const { expect } = require('chai');
 
 describe('Stack data structure tests', () => {
