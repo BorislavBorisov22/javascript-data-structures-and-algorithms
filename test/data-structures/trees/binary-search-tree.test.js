@@ -173,6 +173,7 @@ describe('BinarySearchTree tests', () => {
 
                 let inOrder = [];
                 tree.inOrder((node) => inOrder.push(node.value));
+                console.log(inOrder);
                 expectToBeSorted(inOrder);
             });
         });

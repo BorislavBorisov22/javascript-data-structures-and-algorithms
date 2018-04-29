@@ -139,12 +139,13 @@ class BinarySearchTree {
 
             if (minParent.left) {
                 const min = minParent.left;
-                minParent.left = minParent.right;
+                minParent.left = min.right;
 
                 min.left = node.left;
                 min.right = node.right;
                 return min
             } else {
+                minParent.left = node.left;
                 return minParent;
             }
 
@@ -216,5 +217,26 @@ class BinarySearchTree {
             compareResult < 0 ? this._existsInSubtree(node.left) : this._existsInSubtree(node.right);
     }
 }
+
+const tree = new BinarySearchTree();
+
+// const expectToBeSorted = (arr) => {
+//     // arr.slice().sort((a, b) => a - b)).to.deep.equal(arr);
+// };
+
+const values = [5, 0, -1, 6, 12, 33, 9, 5.5, 5.7];
+values.forEach(tree.insert.bind(tree));
+
+const removeValues = [-1, 12, 33, 5, 5.5, 5.7, 0, 9, 6];
+
+removeValues.forEach((value) => {
+    tree.remove(value);
+    //expect(tree.size).to.equal(values.length - index - 1);
+
+    let inOrder = [];
+    tree.inOrder((node) => inOrder.push(node.value));
+    console.log(inOrder);
+    // expectToBeSorted(inOrder);
+});
 
 module.exports = BinarySearchTree;
