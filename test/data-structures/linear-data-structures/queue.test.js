@@ -8,7 +8,7 @@ describe('Queue tests', () => {
         queue = new Queue();
     });
 
-    it('expect queue.dequeue to awlays return the first value added that is still present and remove it', () => {
+    it('expect queue.dequeue to always return the first value added that is still present and remove it', () => {
         const values = [1, 2, 3, 4, 5, 4, 32, 2, 1024, 10000, -5, 12];
 
         values.forEach(value => queue.enqueue(value));
