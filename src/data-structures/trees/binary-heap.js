@@ -12,9 +12,9 @@ class BinaryHeap {
             throw new TypeError('Passed value must be defined');
         }
 
-        let index = this.data.length / 2;
+        let index = this.data.length;
 
-        while (parseInt(index / 2 > 1) && this.cmp(value, this.data[parseInt(index / 2)]) < 0) {
+        while (parseInt(index / 2) > 0 && this.cmp(value, this.data[parseInt(index / 2)]) < 0) {
             this.data[index] = this.data[parseInt(index / 2)];
             index = parseInt(index / 2);
         }
@@ -24,13 +24,13 @@ class BinaryHeap {
     }
 
     removeTop() {
-        if (this.isEmpty()) {
+        if (this.isEmpty) {
             throw new Error('No elements to remove from heap!');
         }
 
         const returnValue = this.data[1];
-        const value = this.data[this.size - 1];
-        this.data.splice(this.size, 1);
+        const value = this.data[this.data.length - 1];
+        this.data.splice(this.data.length - 1, 1);
         this.size--;
 
         let index = 1;
@@ -62,8 +62,16 @@ class BinaryHeap {
         return returnValue;
     }
 
-    isEmpty() {
-        return this.size === 1;
+    get top() {
+        if (this.isEmpty) {
+            throw new Error('Binary heap is empty!');
+        }
+
+        return this.data[1];
+    }
+
+    get isEmpty() {
+        return this.size === 0;
     }
 }
 
