@@ -53,4 +53,49 @@ describe('Linked list tests', () => {
             expect(shifted).to.equal(values[index]);
         });
     });
+
+    it('expect to correctly remove the node from the beginning of the linked list when such value is present', () => {
+        const values = [1, 2, 5, 3, 1, 4, 5, 23, 324, 31];
+        values.forEach((value) => linkedList.push(value));
+
+        let expectedValues = values.slice();
+        values.forEach((v, index) => {
+            const removed = linkedList.remove(v);
+            const listValues = collectListItems();
+            
+            expectedValues.splice(0, 1);
+
+            expect(removed).to.be.true;
+            expect(linkedList.size).to.equal(expectedValues.length, 'Invalid list size');
+            expect(expectedValues).to.deep.equal(listValues);
+        });
+    });
+
+    it('expect to correctly remove the node from the end of the linked list when such value is present', () => {
+        const values = [1, 2, 3, 4, 5, 23, 324, 31];
+        values.forEach((value) => linkedList.push(value));
+
+        let expectedValues = values.slice();
+        values.reverse().forEach((v, index) => {
+            const removed = linkedList.remove(v);
+            const listValues = collectListItems();
+            
+            expectedValues.splice(-1, 1);
+
+            expect(removed).to.be.true;
+            expect(linkedList.size).to.equal(expectedValues.length, 'Invalid list size');
+            expect(expectedValues).to.deep.equal(listValues);
+        });
+    });
+
+
+    it('expect remove to return false when no such element was found in list', () => {
+        const values = [1, 2, 5, 3, 1, 4, 5, 23, 324, 31];
+        values.forEach((value) => linkedList.push(value));
+
+        const removed = linkedList.remove(1024);
+
+        expect(removed).to.be.false;
+        expect(linkedList.size).to.equal(values.length);
+    });
 });

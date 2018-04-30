@@ -112,6 +112,7 @@ class LinkedList {
             this._tail = prev;
         }
 
+        this.size--;
         return true;
     }
 
