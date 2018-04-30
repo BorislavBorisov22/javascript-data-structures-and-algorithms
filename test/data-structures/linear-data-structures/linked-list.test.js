@@ -98,4 +98,48 @@ describe('Linked list tests', () => {
         expect(removed).to.be.false;
         expect(linkedList.size).to.equal(values.length);
     });
+
+    it('expect remove to return false when no element present in the list', () => {
+        const removed = linkedList.remove(-1);
+        expect(removed).to.be.false;
+    });
+
+    it('expect recursive reverse to correctly reverse the list', () => {
+        const values = [1, 2, 5, 3, 1, 4, 5, 23, 324, 31];
+        values.forEach((value) => linkedList.push(value));
+
+        linkedList.recursiveReverse();
+
+        expect(collectListItems()).to.deep.equal(values.reverse());
+    });
+
+    
+    it('expect reverse to correctly reverse the list', () => {
+        const values = [1, 2, 5, 3, 1, 4, 5, 23, 324, 31];
+        values.forEach((value) => linkedList.push(value));
+
+        linkedList.reverse();
+
+        expect(collectListItems()).to.deep.equal(values.reverse());
+    });
+
+    it('expect hasCycle to return false when the linked list is not cyclic', () => {
+        const values = [1, 2, 5, 3, 1, 4, 5, 23, 324, 31];
+        values.forEach((value) => linkedList.push(value));
+
+        const hasCycle = linkedList.hasCycle();
+
+        expect(hasCycle).to.be.false;
+    });
+
+    it('expect hasCycle to return true when the linked list is cyclic', () => {
+        const values = [1, 2, 5, 3, 1, 4, 5, 23, 324, 31];
+        values.forEach((value) => linkedList.push(value));
+
+        linkedList._tail.next = linkedList._head;
+
+        const hasCycle = linkedList.hasCycle();
+
+        expect(hasCycle).to.be.true;
+    });
 });
