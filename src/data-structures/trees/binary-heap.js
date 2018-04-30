@@ -1,5 +1,3 @@
-
-
 const defaultComparator = (a, b) => a - b;
 
 class BinaryHeap {
