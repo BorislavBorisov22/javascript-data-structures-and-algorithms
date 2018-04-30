@@ -59,10 +59,10 @@ describe('Linked list tests', () => {
         values.forEach((value) => linkedList.push(value));
 
         let expectedValues = values.slice();
-        values.forEach((v, index) => {
+        values.forEach((v) => {
             const removed = linkedList.remove(v);
             const listValues = collectListItems();
-            
+
             expectedValues.splice(0, 1);
 
             expect(removed).to.be.true;
@@ -76,10 +76,10 @@ describe('Linked list tests', () => {
         values.forEach((value) => linkedList.push(value));
 
         let expectedValues = values.slice();
-        values.reverse().forEach((v, index) => {
+        values.reverse().forEach((v) => {
             const removed = linkedList.remove(v);
             const listValues = collectListItems();
-            
+
             expectedValues.splice(-1, 1);
 
             expect(removed).to.be.true;
@@ -113,7 +113,6 @@ describe('Linked list tests', () => {
         expect(collectListItems()).to.deep.equal(values.reverse());
     });
 
-    
     it('expect reverse to correctly reverse the list', () => {
         const values = [1, 2, 5, 3, 1, 4, 5, 23, 324, 31];
         values.forEach((value) => linkedList.push(value));
