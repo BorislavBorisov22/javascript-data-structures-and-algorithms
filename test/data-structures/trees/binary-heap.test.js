@@ -15,7 +15,6 @@ describe('BinaryHeap', () => {
             valuesToInsert.forEach(heap.insert.bind(heap));
 
             const expectedDataValues = [null, 4, 13, 4.5, 18, 25, 32, 5];
-            console.log(heap.data, 'data heap');
             heap.data.forEach((dataValue, index) => {
                 expect(expectedDataValues[index]).to.equal(dataValue);
             });

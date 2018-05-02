@@ -18,6 +18,10 @@ class AvlTree {
         values.forEach(this.insert.bind(this));
     }
 
+    inOrder(callback) {
+        this._inOrder(this.root, callback);
+    }
+
     _insert(node, value) {
         if (!node) {
             this.size++;
@@ -44,24 +48,24 @@ class AvlTree {
             const leftChildBalance = AvlNode.getBalance(node.left);
 
             if (leftChildBalance < 0) {
-                node.left = this.rotateLeft(node.left);
+                node.left = this._rotateLeft(node.left);
             }
 
-            return this.rotateRight(node);
+            return this._rotateRight(node);
         } else if (nodeBalance < -1) {
             const rightChildBalance = AvlNode.getBalance(node.right);
 
             if (rightChildBalance > 0) {
-                node.right = this.rotateRight(node.right);
+                node.right = this._rotateRight(node.right);
             }
 
-            return this.rotateLeft(node);
+            return this._rotateLeft(node);
         }
 
         return node;
     }
 
-    rotateRight(root) {
+    _rotateRight(root) {
         const newRoot = root.left;
 
         root.left = newRoot.right;
@@ -72,7 +76,7 @@ class AvlTree {
         return newRoot;
     }
 
-    rotateLeft(root) {
+    _rotateLeft(root) {
         const newRoot = root.right;
 
         root.right = newRoot.left;
@@ -81,6 +85,16 @@ class AvlTree {
         AvlNode.updateHeight(root);
 
         return newRoot;
+    }
+
+    _inOrder(node, callback) {
+        if (!node) {
+            return;
+        }
+
+        this._inOrder(node.left, callback);
+        callback(node);
+        this._inOrder(node.right, callback);
     }
 }
 

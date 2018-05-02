@@ -65,4 +65,16 @@ describe('AvlTree', () => {
             expect(tree.size).to.equal(11);
         });
     });
+
+    describe('inOrder', () => {
+        it('expect to traverse the tree in sorted order based on the cmp function', () => {
+            const values = [4, 1, 17, 22, 18, 44, 0, -1, 20, 40, 42];
+            tree.insertMany(...values);
+
+            let inOrder = [];
+            tree.inOrder((node) => inOrder.push(node.value));
+
+            expect(inOrder).to.deep.equal(values.slice().sort((a, b) => a - b));
+        });
+    });
 });
