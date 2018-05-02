@@ -77,4 +77,80 @@ describe('AvlTree', () => {
             expect(inOrder).to.deep.equal(values.slice().sort((a, b) => a - b));
         });
     });
+
+    describe('remove', () => {
+
+        it('expect to remove values correctly and remain a valid Avl tree structure', () => {
+            tree.insertMany(4, 1, 17, 22, 18, 44, 0, -1, 20, 40, 42);
+
+            // expected different rotations to happen after removal
+            tree.remove(17); // right right case
+            tree.remove(-1); // right left case
+            tree.remove(20); // left left case
+            tree.remove(44); // left right case
+
+            const root = tree.root;
+
+            expect(root.value).to.equal(18, 'root value');
+            expect(root.height).to.equal(3, 'root height');
+
+            expect(root.right.value).to.equal(40, 'right child value');
+            expect(root.right.height).to.equal(2, 'right child height');
+
+            expect(root.right.right.value).to.equal(42, 'right right child value');
+            expect(root.right.right.height).to.equal(1, 'right right child height');
+
+            expect(root.right.left.value).to.equal(22, 'right left child value');
+            expect(root.right.right.height).to.equal(1, 'right left child height');
+
+            expect(root.left.value).to.equal(1, 'left child value');
+            expect(root.left.height).to.equal(2, 'left child height')
+
+            expect(root.left.right.value).to.equal(4, 'left right child value');
+            expect(root.left.right.height).to.equal(1, 'left right child height');
+
+            expect(root.left.left.value).to.equal(0, 'left left child value');
+            expect(root.left.right.height).to.equal(1, 'left left child height');
+        });
+
+        it('expect to correctly decrease tree size when element removed successfully', () => {
+            tree.insertMany(4, 1, 17, 22, 18, 44, 0, -1, 20, 40, 42);
+
+            expect(tree.size).to.equal(11);
+
+            const removeValues = [44, 20, 22, 18, 1, 4, 0, -1, 17, 40, 42];
+            removeValues.forEach((v, index) => {
+                tree.remove(v);
+                expect(tree.size).to.equal(removeValues.length - 1 - index);
+            });
+
+            expect(tree.root).to.be.null;
+        });
+
+        it('expect not to change the tree size when trying to remove non-existing element', () => {
+            tree.insertMany(4, 1, 17, 22, 18, 44, 0, -1, 20, 40, 42);
+
+            tree.remove(1024);
+
+            expect(tree.size).to.equal(11);
+        });
+    });
+
+    describe('find', () => {
+        it('expect to return the correct node when searching for existing value in the tree', () => {
+            tree.insertMany(4, 1, 17, 22, 18, 44, 0, -1, 20, 40, 42);
+
+            let targetNode = tree.find(0);
+            expect(targetNode).to.deep.equal(tree.root.left.left);
+
+            targetNode = tree.find(40);
+            expect(targetNode).to.deep.equal(tree.root.right.right.left);
+
+            targetNode = tree.find(17);
+            expect(targetNode).to.deep.equal(tree.root.left.right);
+
+            targetNode = tree.find(42);
+            expect(targetNode).to.deep.equal(tree.root.right.right);
+        });
+    });
 });
