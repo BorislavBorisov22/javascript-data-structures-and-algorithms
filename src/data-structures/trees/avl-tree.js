@@ -10,8 +10,20 @@ class AvlTree {
         this.size = 0;
     }
 
+    find(value) {
+        return this._find(this.root, value);
+    }
+
     insert(value) {
         this.root = this._insert(this.root, value);
+    }
+
+    remove(value) {
+        this.root = this._remove(this.root, value);
+    }
+
+    removeMany(...values) {
+        values.forEach(this.remove.bind(this));
     }
 
     insertMany(...values) {
@@ -37,6 +49,60 @@ class AvlTree {
 
         node = this._rotate(node);
         AvlNode.updateHeight(node);
+
+        return node;
+    }
+
+    _remove(node, value) {
+        if (!node) {
+            return null;
+        }
+
+        const compareResult = this.cmp(value, node.value);
+        if (compareResult === 0) {
+            if (!node.left) {
+                this.size--;
+                return node.right;
+            }
+
+            if (!node.right) {
+                this.size--;
+                return node.left;
+            }
+
+            const min = this._min(node.right);
+            node.value = min.value;
+            node.right = this._remove(node.right, min.value);
+        } else if (compareResult < 0) {
+            node.left = this._remove(node.left, value);
+        } else {
+            node.right = this._remove(node.right, value);
+        }
+
+        node = this._rotate(node);
+        AvlNode.updateHeight(node);
+        return node;
+    }
+
+    _find(node, value) {
+        if (!node) {
+            return null;
+        }
+
+        const compareResult = this.cmp(value, node.value);
+        if (compareResult === 0) {
+            return node;
+        } else if (compareResult < 0) {
+            return this._find(node.left, value);
+        } else {
+            return this._find(node.right, value);
+        }
+    }
+
+    _min(node) {
+        while (node.left !== null) {
+            node = node.left;
+        }
 
         return node;
     }
