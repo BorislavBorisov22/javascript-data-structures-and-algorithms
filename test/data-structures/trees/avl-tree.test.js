@@ -152,5 +152,13 @@ describe('AvlTree', () => {
             targetNode = tree.find(42);
             expect(targetNode).to.deep.equal(tree.root.right.right);
         });
+
+        it('expect to return null when searching for no-existing value in tree', () => {
+            tree.insertMany(4, 1, 17, 22, 18, 44, 0, -1, 20, 40, 42);
+
+            const targetNode = tree.find(33);
+
+            expect(targetNode).to.be.null;
+        });
     });
 });
