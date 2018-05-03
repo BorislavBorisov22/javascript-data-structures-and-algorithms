@@ -1,8 +1,9 @@
-const { Queue } = require('../../../src/data-structures/linear-data-structures/queue');
+const Queue = require('../../../src/data-structures/linear-data-structures/queue');
+
 const { expect } = require('chai');
 
 describe('Queue tests', () => {
-    let queue;
+    let queue = new Queue();
 
     beforeEach(() => {
         queue = new Queue();

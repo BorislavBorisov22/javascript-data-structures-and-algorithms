@@ -1,16 +1,19 @@
-(function(exports) {
-    const QueueNode = function(value) {
+class QueueNode {
+    constructor(value) {
         this.value = value;
         this.next = null;
     }
+}
 
-    const Queue = function() {
+class Queue {
+
+    constructor() {
         this._head = null;
         this._tail = null;
         this.size = 0;
-    };
+    }
 
-    Queue.prototype.enqueue = function(value) {
+    enqueue(value) {
         if (typeof value === 'undefined') {
             throw new Error('Cannot enqueue an undefined value');
         }
@@ -25,9 +28,9 @@
         }
 
         ++this.size;
-    };
+    }
 
-    Queue.prototype.dequeue = function() {
+    dequeue() {
         if (this._head === null) {
             return null;
         }
@@ -37,18 +40,15 @@
 
         --this.size;
         return _headValue;
-    };
+    }
 
-    Queue.prototype.peek = function() {
+    peek() {
         return this._head === null ? null : this._head.value;
-    };
+    }
 
-    Object.defineProperty(Queue.prototype, 'isEmpty', {
-        get: function() {
-            return this.size === 0;
-        },
-    });
+    get isEmpty() {
+        return this.size === 0;
+    }
+}
 
-    exports.Queue = Queue;
-
-})(typeof window === 'undefined' ? module.exports : window);
+module.exports = Queue;
