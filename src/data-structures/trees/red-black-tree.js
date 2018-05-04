@@ -118,7 +118,6 @@
     RedBlackTree.prototype.find = function(value) {
         return this._find(this.root, value);
     };
-
     RedBlackTree.prototype._find = function(node, value) {
         if (node === null) {
             return null;
