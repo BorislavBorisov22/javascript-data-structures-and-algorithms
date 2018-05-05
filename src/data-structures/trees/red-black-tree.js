@@ -1,147 +1,134 @@
-(function(exports) {
+const nodeColor = {
+    red: true,
+    black: false
+};
 
-    const color = {
-        BLACK: false,
-        RED: true
-    };
-
-    const Node = function(value) {
-        this.value = value;
+class Node {
+    constructor(value) {
         this.left = null;
         this.right = null;
-        this.count = 1;
-        this.color = color.RED;
-    };
+        this.value = value;
+        this.color = nodeColor.red;
+    }
 
-    Node.prototype.updateCount = function() {
-        this.count = Node.count(this.left) + Node.count(this.right) + 1;
-    };
+    static isParentBlack(node) {
+        return !node ? false : Node.isBlack(node.parent);
+    }
 
-    Node.count = function(node) {
-        return node === null ? 0 : node.count;
-    };
+    static isUncleBlack(node) {
+        const oppositeDir = Node.isLeftChild(node) ? 'right' : 'left';
 
-    Node.isRed = function(node) {
-        return node === null ? false : node.color === color.RED;
-    };
+        return !node || !node.parent ? false : Node.isBlack(node.parent[oppositeDir]);
+    }
 
-    Node.rotateLeft = function(node) {
-        const newNode = node.right;
-        node.right = newNode.left;
-        newNode.left = node;
+    static isBlack(node) {
+        return node !== null ? node.color === nodeColor.black : false;
+    }
 
-        newNode.color = node.color;
-        node.color = color.RED;
+    static isLeftChild(node) {
+        if (!node.parent) {
+            return false;
+        }
 
-        node.updateCount();
+        return node.parent.left === node;
+    }
 
-        return newNode;
-    };
+    static isRightChild(node) {
+        if (!node.parent) {
+            return false;
+        }
 
-    Node.rotateRight = function(node) {
-        const newNode = node.left;
-        node.left = newNode.right;
-        newNode.right = node;
+        return node.parent.right === node;
+    }
 
-        newNode.color = node.color;
-        node.color = color.RED;
+    static getUncle(node) {
+        const oppositeDir = Node.isLeftChild(node) ? 'right' : 'left';
+        return node.parent[oppositeDir];
+    }
+}
 
-        node.updateCount();
+class RedBlackTree {
 
-        return newNode;
-    };
-
-    Node.flipColors = function(node) {
-        node.color = color.RED;
-        node.left.color = color.BLACK;
-        node.right.color = color.BLACK;
-
-        return node;
-    };
-
-    const RedBlackTree = function(cmp) {
+    constructor(cmp) {
         this.cmp = cmp;
         this.root = null;
-    };
+    }
 
-    RedBlackTree.prototype.insert = function(value) {
-        this.root = this._insert(this.root, value);
-        this.root.color = color.BLACK;
-    };
-
-    RedBlackTree.prototype._insert = function(node, value) {
-        if (node === null) {
-            const newNode = new Node(value);
-            return newNode;
-        }
-
-        const compareResult = this.cmp(value, node.value);
-        if (compareResult < 0) {
-            node.left = this._insert(node.left, value);
-        } else if (compareResult > 0) {
-            node.right = this._insert(node.right, value);
-        } else {
-            // just skip if value is already present;
-            return node;
-        }
-
-        if (Node.isRed(node.right) && !Node.isRed(node.left)) {
-            node = Node.rotateLeft(node);
-        }
-
-        if (Node.isRed(node.left) && Node.isRed(node.left.left)) {
-            node = Node.rotateRight(node);
-        }
-
-        if (Node.isRed(node.left) && Node.isRed(node.right)) {
-            node = Node.flipColors(node);
-        }
-
-        node.updateCount();
-        return node;
-    };
-
-    RedBlackTree.prototype.inOrder = function(callback) {
-        this._inOrder(this.root, callback);
-    };
-
-    RedBlackTree.prototype._inOrder = function(node, callback) {
-        if (node === null) {
+    insert(value) {
+        const node = new Node(value);
+        if (this.root === null) {
+            this.root = node;
+            this.root.color = nodeColor.black;
             return;
         }
 
-        this._inOrder(node.left);
-        callback(node);
-        this._inOrder(node.right);
-    };
+        let parent = this.root;
+        while (true) {
+            const direction = this.cmp(value, parent) < 0 ? 'left' : 'right';
+            if (!parent[direction]) {
+                break;
+            }
 
-    RedBlackTree.prototype.find = function(value) {
-        return this._find(this.root, value);
-    };
-    RedBlackTree.prototype._find = function(node, value) {
-        if (node === null) {
-            return null;
+            parent = parent[direction];
         }
 
-        const compareResult = this.cmp(value, node.value);
-        if (compareResult === 0) {
-            return node;
+        node.parent = parent;
+
+        this.fixTree(node);
+        this.root.color = nodeColor.black;
+    }
+
+    fixTree(startNode) {
+        let node = startNode;
+
+        if (Node.isParentBlack(node)) {
+            return;
         }
 
-        const childKey = compareResult < 0 ? 'left' : 'right';
-        return this._find(node[childKey], value);
-    };
+        if (node.parent && !Node.isUncleBlack(node)) {
+            const uncle = Node.getUncle(node);
+            node.parent.color = nodeColor.black;
 
-    RedBlackTree.prototype.contains = function(value) {
-        return this.find(value) !== null;
-    };
+            node.parent.color = nodeColor.red;
+            if (uncle) {
+                uncle.color = nodeColor.black;
+            }
+        } else {
+            if (Node.isLeftChild(node) && Node.isLeftChild(node.parent)) {
+                // right rotation
+            } else if (Node.isRightChild(node) && Node.isRightChild(node.parent)) {
+                // left rotation
+            } else if (Node.isLeftChild(node) && Node.isRightChild(node.parent)) {
+                // left right rotation
+            } else {
+                // right left rotation
+            }
+        }
+    }
 
-    exports.RedBlackTree = RedBlackTree;
+    rotateRight(node) {
+        const newRoot = node.left;
 
-})(typeof window === 'undefined' ? module.exports : window);
+        node.left = newRoot.right;
+        if (node.left) {
+            node.left.parent = node;
+        }
 
-const tree = new module.exports.RedBlackTree((a, b) => a - b);
-const values = [30, 20, 40, 35, 37, 45, 44, 50, 47];
-values.forEach(value => tree.insert(value));
+        newRoot.parent = node.parent;
 
-console.log(tree.root.count);
+        if (node.parent && Node.isLeftChild(node.parent)) {
+            node.parent.left = newRoot;
+        } else if (node.parent && Node.isRightChild(node.parent)) {
+            node.parent.right = newRoot;
+        }
+
+        newRoot.parent = node.parent;
+        node.parent = newRoot;
+
+        newRoot.right = node;
+
+        return newRoot;
+    }
+}
+
+module.exports = RedBlackTree;
