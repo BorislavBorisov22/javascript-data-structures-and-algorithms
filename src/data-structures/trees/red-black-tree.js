@@ -146,7 +146,9 @@ class RedBlackTree {
                 }
             }
 
-            node = node.parent;
+            if (node.parent) {
+                node = node.parent;
+            }
         }
 
         return node;
@@ -221,5 +223,8 @@ class RedBlackTree {
         this._inOrder(node.right, callback);
     }
 }
+
+const tree = new RedBlackTree((a, b) => a - b);
+tree.insertMany(30, 40, 35, 60, 50, 34, 32);
 
 module.exports = { RedBlackTree, nodeColor };

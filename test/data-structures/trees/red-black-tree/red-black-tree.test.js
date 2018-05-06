@@ -55,6 +55,34 @@ describe('RedBlackTree', () => {
             });
 
         it(
+            'expect to correctly insert values and remain valid red-black tree when having left right rotation cases',
+            () => {
+                tree.insertMany(30, 40, 35, 60, 50, 34, 32);
+                const root = tree.root;
+
+                expect(root.value).to.equal(35);
+                expect(root.color).to.equal(nodeColor.black);
+
+                expect(root.left.value).to.equal(32);
+                expect(root.left.color).to.equal(nodeColor.black);
+
+                expect(root.left.left.value).to.equal(30);
+                expect(root.left.left.color).to.equal(nodeColor.red);
+
+                expect(root.left.right.value).to.equal(34);
+                expect(root.left.right.color).to.equal(nodeColor.red);
+
+                expect(root.right.value).to.equal(50);
+                expect(root.right.color).to.equal(nodeColor.black);
+
+                expect(root.right.left.value).to.equal(40);
+                expect(root.right.left.color).to.equal(nodeColor.red);
+
+                expect(root.right.right.value).to.equal(60);
+                expect(root.right.right.color).to.equal(nodeColor.red);
+
+            });
+        it(
             'expect to correctly insert values and remain valid red-black tree when having left left rotation cases',
             () => {
                 const values = [5, 7, 16, 33, 35, 60, 80, 85, 90, 95, 100, 105].reverse();
