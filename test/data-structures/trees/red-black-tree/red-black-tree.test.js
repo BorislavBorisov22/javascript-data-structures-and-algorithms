@@ -54,6 +54,51 @@ describe('RedBlackTree', () => {
                 expect(root.right.right.right.right.color).to.equal(nodeColor.red);
             });
 
+        it(
+            'expect to correctly insert values and remain valid red-black tree when having left left rotation cases',
+            () => {
+                const values = [5, 7, 16, 33, 35, 60, 80, 85, 90, 95, 100, 105].reverse();
+                tree.insertMany(...values);
+
+                const root = tree.root;
+
+                expect(root.value).to.equal(90, 'root');
+                expect(root.color).to.equal(nodeColor.black);
+
+                expect(root.left.value).to.equal(35);
+                expect(root.left.color).to.equal(nodeColor.black);
+
+                expect(root.left.left.value).to.equal(16);
+                expect(root.left.left.color).to.equal(nodeColor.red);
+
+                expect(root.left.left.left.value).to.equal(7);
+                expect(root.left.left.left.color).to.equal(nodeColor.black);
+
+                expect(root.left.left.left.left.value).to.equal(5);
+                expect(root.left.left.left.left.color).to.equal(nodeColor.red);
+
+                expect(root.left.left.right.value).to.equal(33);
+                expect(root.left.left.right.color).to.equal(nodeColor.black);
+
+                expect(root.left.right.value).to.equal(80);
+                expect(root.left.right.color).to.equal(nodeColor.red);
+
+                expect(root.left.right.left.value).to.equal(60);
+                expect(root.left.right.left.color).to.equal(nodeColor.black);
+
+                expect(root.left.right.right.value).to.equal(85);
+                expect(root.left.right.right.color).to.equal(nodeColor.black);
+
+                expect(root.right.value).to.equal(100);
+                expect(root.right.color).to.equal(nodeColor.black);
+
+                expect(root.right.right.value).to.equal(105);
+                expect(root.right.right.color).to.equal(nodeColor.black);
+
+                expect(root.right.left.value).to.equal(95);
+                expect(root.right.left.color).to.equal(nodeColor.black);
+            });
+
         it('expect to correctly insert values and remain valid red-black tree', () => {
             tree.insertMany(10, 5, 22, 30, 40, 2, 4, 28, 25, 1, 0, 2.5, 6, 7);
             const root = tree.root;
