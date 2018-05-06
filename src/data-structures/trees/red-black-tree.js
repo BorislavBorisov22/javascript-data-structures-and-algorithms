@@ -84,8 +84,12 @@ class RedBlackTree {
 
         node.parent = parent;
 
-        this.fixTree(node);
+        this.root = this.fixTree(node);
         this.root.color = nodeColor.black;
+    }
+
+    insertMany(...values) {
+        values.forEach(this.insert.bind(this));
     }
 
     fixTree(startNode) {
@@ -94,7 +98,8 @@ class RedBlackTree {
         while (node.parent !== null) {
 
             if (Node.isParentBlack(node) || Node.isBlack(node)) {
-                return;
+                node = node.parent;
+                continue;
             }
 
             if (node.parent && !Node.isUncleBlack(node)) {
@@ -109,38 +114,42 @@ class RedBlackTree {
                     node.parent.parent.color = nodeColor.red;
                 }
 
-                node = node.parent;
             } else {
+                let newRoot;
+
                 if (Node.isLeftChild(node) && Node.isLeftChild(node.parent)) {
                     // right rotation
-                    this.rotateRight(node.parent.parent);
+                    newRoot = this.rotateRight(node.parent.parent);
                 } else if (Node.isRightChild(node) && Node.isRightChild(node.parent)) {
                     // left rotation
-                    this.rotateLeft(node.parent.parent);
+                    newRoot = this.rotateLeft(node.parent.parent);
                 } else if (Node.isLeftChild(node) && Node.isRightChild(node.parent)) {
                     // left right rotation
-                    this.rotateLeft(node.parent);
                     this.rotateRight(node.parent);
+                    newRoot = this.rotateLeft(node.parent);
                 } else if (Node.isRightChild(node) && Node.isLeftChild(node.parent)) {
                     // right left rotation
-                    this.rotateRight(node.parent);
                     this.rotateLeft(node.parent);
+                    newRoot = this.rotateRight(node.parent);
                 } else {
+                    node = node.parent;
                     continue;
                 }
 
-                node.parent.color = nodeColor.black;
-                if (node.parent.left) {
-                    node.parent.left.color = nodeColor.red;
+                newRoot.color = nodeColor.black;
+                if (newRoot.left) {
+                    newRoot.left.color = nodeColor.red;
                 }
 
-                if (node.parent.right) {
-                    node.parent.right.color = nodeColor.red;
+                if (newRoot.right) {
+                    newRoot.right.color = nodeColor.red;
                 }
             }
 
             node = node.parent;
         }
+
+        return node;
     }
 
     rotateRight(node) {
@@ -183,7 +192,6 @@ class RedBlackTree {
             node.right.parent = node;
         }
 
-        newRoot.parent = node.parent;
 
         if (node.parent && Node.isLeftChild(node)) {
             node.parent.left = newRoot;
@@ -214,26 +222,4 @@ class RedBlackTree {
     }
 }
 
-const tree = new RedBlackTree();
-tree.insert(4);
-tree.insert(2);
-tree.insert(12);
-// right side of the tree parent and uncle red case
-tree.insert(13);
-
-// left side of the tree parent and uncle red case
-tree.insert(-5);
-tree.insert(3);
-tree.insert(3.5);
-
-// parent red but uncle black cases
-//  left left case
-tree.insert(19);
-
-tree.inOrder((node) => {
-    const { left, right, parent, value, color } = node;
-    // eslint-disable-next-line
-    console.log(`${value} - ${color ? 'red' : 'black'} => left(${left ? left.value : 'null'}) => right(${right ? right.value : 'null'}) => parent(${parent ? parent.value : 'null'})`);
-});
-
-module.exports = RedBlackTree;
+module.exports = { RedBlackTree, nodeColor };
