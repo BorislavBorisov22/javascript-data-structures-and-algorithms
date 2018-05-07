@@ -51,6 +51,11 @@ class Node {
         const oppositeDir = Node.isLeftChild(node.parent) ? 'right' : 'left';
         return node.parent.parent[oppositeDir];
     }
+
+    static getSibling(node) {
+        const oppsiteDir = Node.isLeftChild(node) ? 'right' : 'left';
+        return node.parent[oppsiteDir];
+    }
 }
 
 module.exports = Node;

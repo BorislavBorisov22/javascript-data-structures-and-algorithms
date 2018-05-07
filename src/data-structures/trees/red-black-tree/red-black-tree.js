@@ -123,15 +123,18 @@ class RedBlackTree {
         let node = this.root;
         let searchValue = value;
 
+        // peforming standart binary search tree removal until we go to a case removing
+        // a node with 0 or 1 child
         while (node !== null) {
             const compareResult = this.cmp(searchValue, node.value);
             if (compareResult === 0) {
                 if (node.left && node.right) {
                     const inOrderSuccessor = this._findMin(node.right);
                     node.value = inOrderSuccessor.value;
+                    node = inOrderSuccessor;
                 } else {
-                    const newNode = this._transplantNode(node);
-                    this.fixRemove(newNode);
+                    this.fixRemove(node);
+                    return;
                 }
             } else if (compareResult < 0) {
                 node = node.left;
@@ -141,9 +144,20 @@ class RedBlackTree {
         }
     }
 
-    fixRemove(startNode) {
-        let node = startNode;
-        console.log(node);
+    fixRemove(nodeToRemove) {
+        let node = nodeToRemove;
+        if (!Node.isBlack(node) || (!Node.isBlack(node.left) || !Node.isBlack(node.right))) {
+            const newNode = this._transplantNode(node);
+            if (newNode) {
+                newNode.color = nodeColor.black;
+            }
+        } else {
+            const newNode = this._transplantNode(node);
+            if (newNode && newNode.parent) {
+                const sibling = Node.getSibling(newNode);
+                console.log(sibling);
+            }
+        }
     }
 
     rotateRight(node) {
