@@ -99,6 +99,53 @@ class RedBlackTree {
         return node;
     }
 
+    _findMin(node) {
+        while (node.left !== null) {
+            node = node.left;
+        }
+
+        return node;
+    }
+
+    _transplantNode(node) {
+        const dir = node.left ? 'left' : 'right';
+        node[dir].parent = node.parent;
+        if (node.parent && node.parent.left === node) {
+            node.parent.left = node[dir];
+        } else if (node.parent && node.parent.right === node) {
+            node.parent.right = node[dir];
+        }
+
+        node
+    }
+
+    remove(value) {
+        let node = this.root;
+        let searchValue = value;
+
+        while (node !== null) {
+            const compareResult = this.cmp(searchValue, node.value);
+            if (compareResult === 0) {
+                if (node.left && node.right) {
+                    const inOrderSuccessor = this._findMin(node.right);
+                    node.value = inOrderSuccessor.value;
+                } else {
+                    const newNode = this._transplantNode(node);
+                    this.fixRemove(newNode);
+                }
+            } else if (compareResult < 0) {
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+        }
+    }
+
+    fixRemove(startNode) {
+        let node = startNode;
+        console.log(node);
+    }
+
     rotateRight(node) {
         if (!node) {
             return;
@@ -168,8 +215,5 @@ class RedBlackTree {
         this._inOrder(node.right, callback);
     }
 }
-
-// const tree = new RedBlackTree((a, b) => a - b);
-// tree.insertMany(30, 40, 35, 60, 50, 34, 32);
 
 module.exports = RedBlackTree;
