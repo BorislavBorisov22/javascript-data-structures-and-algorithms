@@ -1,4 +1,5 @@
-const { RedBlackTree, nodeColor } = require('../../../../src/data-structures/trees/red-black-tree');
+const RedBlackTree = require('../../../../src/data-structures/trees/red-black-tree/red-black-tree');
+const nodeColor = require('../../../../src/data-structures/trees/red-black-tree/node-color');
 
 const { expect } = require('chai');
 
