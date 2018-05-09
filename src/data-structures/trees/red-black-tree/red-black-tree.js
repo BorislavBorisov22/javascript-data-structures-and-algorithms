@@ -145,6 +145,8 @@ class RedBlackTree {
     }
 
     fixRemove(nodeToRemove) {
+        // const parent = nodeToRemove.parent;
+        // const sibling = Node.getSibling(node);
         let node = nodeToRemove;
         if (!Node.isBlack(node) || (!Node.isBlack(node.left) || !Node.isBlack(node.right))) {
             const newNode = this._transplantNode(node);
@@ -199,7 +201,6 @@ class RedBlackTree {
         if (node.right) {
             node.right.parent = node;
         }
-
 
         if (node.parent && Node.isLeftChild(node)) {
             node.parent.left = newRoot;
