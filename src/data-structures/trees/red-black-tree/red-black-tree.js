@@ -109,14 +109,18 @@ class RedBlackTree {
 
     _transplantNode(node) {
         const dir = node.left ? 'left' : 'right';
-        node[dir].parent = node.parent;
+
+        if (node[dir]) {
+            node[dir].parent = node.parent;
+        }
+
         if (node.parent && node.parent.left === node) {
             node.parent.left = node[dir];
         } else if (node.parent && node.parent.right === node) {
             node.parent.right = node[dir];
         }
 
-        node
+        return node[dir];
     }
 
     remove(value) {
