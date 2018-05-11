@@ -1,5 +1,4 @@
 const LinkedList = require('../../../src/data-structures/linear-data-structures/linked-list');
-
 const { expect } = require('chai');
 
 describe('Linked list tests', () => {
