@@ -240,7 +240,7 @@ class RedBlackTree {
                 sibling.parent.color = nodeColor.black;
 
                 sibling = sibling.parent;
-            } else if (!Node.isBlack(sibling.right)) {
+            } else if (Node.isBlack(sibling.left) && !Node.isBlack(sibling.right)) {
                 this.rotateLeft(sibling);
 
                 sibling.color = nodeColor.red;
@@ -250,7 +250,7 @@ class RedBlackTree {
             }
         }
 
-        this._delteCase6(doubleBlackNode, parent, sibling, isLeftChild);
+        this._deleteCase6(doubleBlackNode, parent, sibling, isLeftChild);
     }
 
     _deleteCase6(doubleBlackNode, parent, sibling, isLeftChild) {
@@ -259,10 +259,18 @@ class RedBlackTree {
                 this.rotateLeft(parent);
                 sibling.right.color = nodeColor.black;
 
+                if (parent === this.root) {
+                    this.root = sibling;
+                }
+
                 return;
             } else if (!isLeftChild && !Node.isBlack(sibling.left)) {
                 this.rotateRight(parent);
                 sibling.left.color = nodeColor.black;
+
+                if (parent === this.root) {
+                    this.root = sibling;
+                }
 
                 return;
             }
@@ -340,5 +348,10 @@ class RedBlackTree {
         this._inOrder(node.right, callback);
     }
 }
+
+const tree = new RedBlackTree();
+tree.insertMany(30, 20, 40, 35, 50);
+
+tree.remove(20);
 
 module.exports = RedBlackTree;
