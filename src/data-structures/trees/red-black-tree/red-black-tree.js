@@ -149,8 +149,12 @@ class RedBlackTree {
     }
 
     fixRemove(nodeToRemove) {
-        // const parent = nodeToRemove.parent;
-        // const sibling = Node.getSibling(node);
+        if (!nodeToRemove) {
+            throw new Error('Cannot remove undefined or null node!');
+        }
+
+        const parent = nodeToRemove.parent;
+        const sibling = Node.getSibling(nodeToRemove);
         let node = nodeToRemove;
         if (!Node.isBlack(node) || (!Node.isBlack(node.left) || !Node.isBlack(node.right))) {
             const newNode = this._transplantNode(node);
@@ -158,12 +162,23 @@ class RedBlackTree {
                 newNode.color = nodeColor.black;
             }
         } else {
-            const newNode = this._transplantNode(node);
-            if (newNode && newNode.parent) {
-                const sibling = Node.getSibling(newNode);
-                console.log(sibling);
-            }
+            // double black node case
+            let newNode = this._transplantNode(node);
+            this._deleteCase1(newNode, parent, sibling);
         }
+    }
+
+    // when double black node is root
+    _deleteCase1(doubleBlackNode, parent, sibling) {
+        if (doubleBlackNode === this.root) {
+            return;
+        }
+
+        this._deleteCase2(doubleBlackNode, parent, sibling);
+    }
+
+    _deleteCase2(doubleBlackNode, parent, sibling) {
+        if (parent && Node.isBlack(parent) && sibling)
     }
 
     rotateRight(node) {
