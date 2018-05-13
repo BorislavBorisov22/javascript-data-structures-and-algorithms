@@ -155,6 +155,7 @@ class RedBlackTree {
 
         const parent = nodeToRemove.parent;
         const sibling = Node.getSibling(nodeToRemove);
+        const isLeftChild = Node.isLeftChild(nodeToRemove);
         let node = nodeToRemove;
         if (!Node.isBlack(node) || (!Node.isBlack(node.left) || !Node.isBlack(node.right))) {
             const newNode = this._transplantNode(node);
@@ -164,22 +165,112 @@ class RedBlackTree {
         } else {
             // double black node case
             let newNode = this._transplantNode(node);
-            this._deleteCase1(newNode, parent, sibling);
+            this._deleteCase1(newNode, parent, sibling, isLeftChild);
         }
     }
 
     // when double black node is root
-    _deleteCase1(doubleBlackNode, parent, sibling) {
+    _deleteCase1(doubleBlackNode, parent, sibling, isLeftChild) {
         if (doubleBlackNode === this.root) {
             return;
         }
 
-        this._deleteCase2(doubleBlackNode, parent, sibling);
+        this._deleteCase2(doubleBlackNode, parent, sibling, isLeftChild);
     }
 
-    _deleteCase2(doubleBlackNode, parent, sibling) {
-        if (parent && Node.isBlack(parent) && sibling)
+    _deleteCase2(doubleBlackNode, parent, sibling, isLeftChild) {
+        if (isLeftChild && parent && Node.isBlack(parent) &&
+            sibling && !Node.isBlack(sibling) &&
+            Node.isBlack(sibling.left) && Node.isBlack(sibling.right)) {
+
+            let newSibling;
+            if (isLeftChild) {
+                this.rotateLeft(parent);
+                newSibling = parent.right;
+            } else {
+                this.rotateRight(parent);
+                newSibling = parent.left;
+            }
+            this.rotateLeft(parent);
+
+            sibling.color = nodeColor.black;
+            parent.color = nodeColor.red;
+
+            sibling = newSibling;
+        }
+
+        this._deleteCase3(doubleBlackNode, parent, sibling, isLeftChild);
     }
+
+    _deleteCase3(doubleBlackNode, parent, sibling, isLeftChild) {
+        if (parent && sibling &&
+            Node.isBlack(parent) && Node.isBlack(sibling) &&
+            Node.isBlack(sibling.left) && Node.isBlack(sibling.right)) {
+
+            sibling.color = nodeColor.red;
+            sibling = Node.getSibling(parent);
+            doubleBlackNode = parent;
+            parent = parent.parent;
+            isLeftChild = Node.isLeftChild(doubleBlackNode);
+        }
+
+        this._deleteCase4(doubleBlackNode, parent, sibling, isLeftChild);
+    }
+
+    _deleteCase4(doubleBlackNode, parent, sibling, isLeftChild) {
+        if (parent && !Node.isBlack(parent) &&
+            Node.isBlack(sibling) && Node.isBlack(sibling.left) && Node.isBlack(sibling.right)) {
+
+            parent.color = nodeColor.black;
+            sibling.color = nodeColor.red;
+            return;
+        }
+
+        this._deleteCase5(doubleBlackNode, parent, sibling, isLeftChild);
+    }
+
+    _deleteCase5(doubleBlackNode, parent, sibling, isLeftChild) {
+        if (parent && Node.isBlack(parent) &&
+            sibling && Node.isBlack(sibling)) {
+
+            if (isLeftChild && Node.isBlack(sibling.right) && !Node.isBlack(sibling.left)) {
+                this.rotateRight(sibling);
+
+                sibling.color = nodeColor.red;
+                sibling.parent.color = nodeColor.black;
+
+                sibling = sibling.parent;
+            } else if (!Node.isBlack(sibling.right)) {
+                this.rotateLeft(sibling);
+
+                sibling.color = nodeColor.red;
+                sibling.parent.color = nodeColor.black;
+
+                sibling = sibling.parent;
+            }
+        }
+
+        this._delteCase6(doubleBlackNode, parent, sibling, isLeftChild);
+    }
+
+    _deleteCase6(doubleBlackNode, parent, sibling, isLeftChild) {
+        if (parent && sibling && Node.isBlack(sibling)) {
+            if (isLeftChild && !Node.isBlack(sibling.right)) {
+                this.rotateLeft(parent);
+                sibling.right.color = nodeColor.black;
+
+                return;
+            } else if (!isLeftChild && !Node.isBlack(sibling.left)) {
+                this.rotateRight(parent);
+                sibling.left.color = nodeColor.black;
+
+                return;
+            }
+        }
+
+        this._deleteCase1(doubleBlackNode, parent, sibling, isLeftChild);
+    }
+
 
     rotateRight(node) {
         if (!node) {
