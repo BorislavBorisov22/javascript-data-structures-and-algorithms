@@ -252,7 +252,8 @@ describe('RedBlackTree', () => {
         });
 
         it(
-            'deleting case double black is left child, sibling is black with left red child and right black child',
+            `deleting case double black is left child, parent is black, 
+            sibling is black with left red child and right black child`,
             () => {
                 tree.insertMany(30, 20, 40, 35);
 
@@ -267,6 +268,32 @@ describe('RedBlackTree', () => {
                 expect(tree.root.left.color).to.equal(nodeColor.black);
 
                 expect(tree.root.right.value).to.equal(40);
+                expect(tree.root.right.color).to.equal(nodeColor.black);
+
+                expect(root.left.left).to.be.null;
+                expect(root.left.right).to.be.null;
+
+                expect(root.right.left).to.be.null;
+                expect(root.right.right).to.be.null;
+            });
+
+        it(
+            `deleting case double black is right child, parent is black, 
+                sibling is black with right red child and left black child`,
+            () => {
+                tree.insertMany(30, 20, 40, 25);
+
+                tree.remove(40);
+
+                const root = tree.root;
+
+                expect(tree.root.value).to.equal(25);
+                expect(tree.root.color).to.equal(nodeColor.black);
+
+                expect(tree.root.left.value).to.equal(20);
+                expect(tree.root.left.color).to.equal(nodeColor.black);
+
+                expect(tree.root.right.value).to.equal(30);
                 expect(tree.root.right.color).to.equal(nodeColor.black);
 
                 expect(root.left.left).to.be.null;
