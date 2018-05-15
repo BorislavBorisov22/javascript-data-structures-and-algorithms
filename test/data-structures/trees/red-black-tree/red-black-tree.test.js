@@ -205,6 +205,52 @@ describe('RedBlackTree', () => {
     });
 
     describe('delete', () => {
+        it('deteting node that has a single red child', () => {
+            tree.insertMany(30, 20, 40, 10);
+
+            tree.remove(20);
+
+            const root = tree.root;
+
+            expect(root.value).to.equal(30);
+            expect(root.color).to.equal(nodeColor.black);
+
+            expect(root.left.value).to.equal(10);
+            expect(root.left.color).to.equal(nodeColor.black);
+
+            expect(root.right.value).to.equal(40);
+            expect(root.right.color).to.equal(nodeColor.black);
+
+            expect(root.left.left).to.be.null;
+            expect(root.left.right).to.be.null;
+
+            expect(root.right.left).to.be.null;
+            expect(root.right.right).to.be.null;
+        });
+
+        it('deleting red node', () => {
+            tree.insertMany(30, 20, 40, 10);
+
+            tree.remove(10);
+
+            const root = tree.root;
+
+            expect(root.value).to.equal(30);
+            expect(root.color).to.equal(nodeColor.black);
+
+            expect(root.left.value).to.equal(20);
+            expect(root.left.color).to.equal(nodeColor.black);
+
+            expect(root.right.value).to.equal(40);
+            expect(root.right.color).to.equal(nodeColor.black);
+
+            expect(root.left.left).to.be.null;
+            expect(root.left.right).to.be.null;
+
+            expect(root.right.left).to.be.null;
+            expect(root.right.right).to.be.null;
+        });
+
         it('deleting case double black is left child, sibling is black and siblig right child is red', () => {
             tree.insertMany(30, 20, 40, 35, 50);
 
