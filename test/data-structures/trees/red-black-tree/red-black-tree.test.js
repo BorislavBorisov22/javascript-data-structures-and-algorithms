@@ -390,5 +390,25 @@ describe('RedBlackTree', () => {
             expect(root.right.left.value).to.equal(15);
             expect(root.right.left.color).to.equal(nodeColor.red);
         });
+
+        it(`deleting case double black is left child, parent is black,
+         sibling is black, and sibling\'s children are black`, () => {
+            tree.insertMany(30, 20, 40, 35);
+
+            tree.remove(35);
+            tree.remove(20);
+
+            const root = tree.root;
+
+            expect(root.value).to.equal(30);
+            expect(root.color).to.equal(nodeColor.black);
+
+            expect(root.right.value).to.equal(40);
+            expect(root.right.color).to.equal(nodeColor.red);
+
+            expect(root.left).to.be.null;
+            expect(root.right.left).to.be.null;
+            expect(root.right.right).to.be.null;
+        });
     });
 });

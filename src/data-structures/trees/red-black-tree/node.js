@@ -53,6 +53,9 @@ class Node {
     }
 
     static getSibling(node) {
+        if (!(node && node.parent)) {
+            return null;
+        }
         const oppsiteDir = Node.isLeftChild(node) ? 'right' : 'left';
         return node.parent[oppsiteDir];
     }

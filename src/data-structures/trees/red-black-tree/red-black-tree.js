@@ -353,8 +353,9 @@ class RedBlackTree {
 }
 
 const tree = new RedBlackTree();
-tree.insertMany(20, 30, 12, 5, 15, 1);
+tree.insertMany(30, 20, 40, 35);
 
-tree.remove(30);
+tree.remove(35);
+tree.remove(20);
 
 module.exports = RedBlackTree;
