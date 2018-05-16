@@ -179,7 +179,7 @@ class RedBlackTree {
     }
 
     _deleteCase2(doubleBlackNode, parent, sibling, isLeftChild) {
-        if (isLeftChild && parent && Node.isBlack(parent) &&
+        if (parent && Node.isBlack(parent) &&
             sibling && !Node.isBlack(sibling) &&
             Node.isBlack(sibling.left) && Node.isBlack(sibling.right)) {
 
@@ -353,8 +353,8 @@ class RedBlackTree {
 }
 
 const tree = new RedBlackTree();
-tree.insertMany(20, 10, 30, 25, 35, 40);
+tree.insertMany(20, 30, 12, 5, 15, 1);
 
-tree.remove(10);
+tree.remove(30);
 
 module.exports = RedBlackTree;
