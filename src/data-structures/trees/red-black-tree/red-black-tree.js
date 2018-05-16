@@ -191,10 +191,13 @@ class RedBlackTree {
                 this.rotateRight(parent);
                 newSibling = parent.left;
             }
-            this.rotateLeft(parent);
 
             sibling.color = nodeColor.black;
             parent.color = nodeColor.red;
+
+            if (sibling.parent === null) {
+                this.root = sibling;
+            }
 
             sibling = newSibling;
         }
@@ -350,8 +353,8 @@ class RedBlackTree {
 }
 
 const tree = new RedBlackTree();
-tree.insertMany(30, 20, 40, 35, 50);
+tree.insertMany(20, 10, 30, 25, 35, 40);
 
-tree.remove(20);
+tree.remove(10);
 
 module.exports = RedBlackTree;
