@@ -146,6 +146,10 @@ class RedBlackTree {
                 node = node.right;
             }
         }
+
+        if (this.root) {
+            this.root.color = nodeColor.black;
+        }
     }
 
     fixRemove(nodeToRemove) {
@@ -258,9 +262,11 @@ class RedBlackTree {
 
     _deleteCase6(doubleBlackNode, parent, sibling, isLeftChild) {
         if (parent && sibling && Node.isBlack(sibling)) {
+            const parentColor = parent.color;
             if (isLeftChild && !Node.isBlack(sibling.right)) {
                 this.rotateLeft(parent);
                 sibling.right.color = nodeColor.black;
+                sibling.color = parentColor;
 
                 if (parent === this.root) {
                     this.root = sibling;
@@ -270,6 +276,7 @@ class RedBlackTree {
             } else if (!isLeftChild && !Node.isBlack(sibling.left)) {
                 this.rotateRight(parent);
                 sibling.left.color = nodeColor.black;
+                sibling.color = parentColor;
 
                 if (parent === this.root) {
                     this.root = sibling;
