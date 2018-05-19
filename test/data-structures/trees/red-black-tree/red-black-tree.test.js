@@ -410,5 +410,67 @@ describe('RedBlackTree', () => {
             expect(root.right.left).to.be.null;
             expect(root.right.right).to.be.null;
         });
+
+        it('deleting nodes that lead to all 6 cases should remain valid red-black tree', () => {
+            tree.insertMany(30, 40, 70, 25, 28, 100, 130, 65, 50, 45, 33, 77, 88, 90, 92, 95);
+
+            // deleting red child
+            tree.remove(33);
+            // deleting black node with a red child
+            tree.remove(92);
+
+            // case 4 => double black has red parent, black sibling, with black children
+            tree.remove(95);
+            tree.remove(70);
+            tree.remove(88);
+
+            // case 6 => double black has black sibling with right red child
+            tree.remove(77);
+
+            // case 3 => double black has black parent, sibling and black sibling children
+            tree.remove(90);
+
+            // case 5 followed by case 6 => double black has black parent with black sibling and sibling children
+            // are red left and black right
+            tree.insert(26);
+            tree.remove(30);
+
+            // case 2 followed by case 4 => double black has red parent with black sibling and siblign's children are black
+            tree.remove(45);
+            tree.insert(90);
+            tree.remove(50);
+
+            // case 1 double black node becomes root
+            tree.remove(25);
+
+            // deleting some red nodes for less expectation cases
+            tree.remove(90);
+            tree.remove(120);
+
+            const root = tree.root;
+
+            expect(root.value).to.equal(40);
+            expect(root.color).to.equal(nodeColor.black);
+
+            expect(root.left.value).to.equal(26);
+            expect(root.left.color).to.equal(nodeColor.black);
+            expect(root.right.value).to.equal(100);
+            expect(root.right.color).to.equal(nodeColor.red);
+
+            expect(root.left.left).to.be.null;
+            expect(root.left.right.value).to.equal(28);
+            expect(root.left.right.color).to.equal(nodeColor.red);
+            expect(root.right.left.value).to.equal(65);
+            expect(root.right.left.color).to.equal(nodeColor.black);
+            expect(root.right.right.value).to.equal(130);
+            expect(root.right.right.color).to.equal(nodeColor.black);
+
+            expect(root.left.right.left).to.be.null;
+            expect(root.left.right.right).to.be.null;
+            expect(root.right.left.left).to.be.be.null;
+            expect(root.right.left.right).to.be.null;
+            expect(root.right.right.left).to.be.be.null;
+            expect(root.right.right.right).to.be.null;
+        });
     });
 });
