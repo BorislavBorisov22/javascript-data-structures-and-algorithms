@@ -537,4 +537,16 @@ describe('RedBlackTree', () => {
             expect(contains).to.be.false;
         });
     });
+
+    describe('inOrder', () => {
+        it('expect to go through all tree values in sorted order and invoke the passed callback', () => {
+            const values = [2, 3, 54, 23, 42, 543, 25, -30, 3124, 15, 124, 234, 1234, 12];
+            tree.insertMany(...values);
+
+            let inOrder = [];
+            tree.inOrder((node) => inOrder.push(node.value));
+
+            expect(inOrder).to.deep.equal(values.slice().sort((a, b) => a - b));
+        });
+    });
 });
