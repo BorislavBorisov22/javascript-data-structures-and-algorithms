@@ -204,7 +204,7 @@ describe('RedBlackTree', () => {
         });
     });
 
-    describe('delete', () => {
+    describe('remove', () => {
         it('deteting node that has a single red child', () => {
             tree.insertMany(30, 20, 40, 10);
 
@@ -471,6 +471,70 @@ describe('RedBlackTree', () => {
             expect(root.right.left.right).to.be.null;
             expect(root.right.right.left).to.be.be.null;
             expect(root.right.right.right).to.be.null;
+        });
+    });
+
+    describe('find', () => {
+        it('expect to return the found value when searched value is present in tree', () => {
+            tree.insertMany(1, 2, 3, 43, 12, 21, 35, 4, 32312, 312, 423, 421, 312);
+            const expectedValue = 312;
+            const targetValue = tree.find(312);
+
+            expect(expectedValue).to.equal(targetValue);
+        });
+
+        it('expect to return null when searching for non-existent value in tree', () => {
+            tree.insertMany(1, 2, 3, 43, 12, 21, 35, 4, 32312, 312, 423, 421, 312);
+            const targetValue = tree.find(234);
+            expect(targetValue).to.be.null;
+        });
+    });
+
+    describe('min', () => {
+        it('expect to return correctly the min value present in the tree', () => {
+            tree.insertMany(2, 3, 54, 23, 42, 543, 25, -30, 3124, 15, 124, 234, 1234, 12);
+            const minValue = tree.min();
+
+            expect(minValue).to.equal(-30);
+        });
+
+        it('expect to return null when tree is empty', () => {
+            const minValue = tree.min();
+            expect(minValue).to.be.null;
+        });
+    });
+
+    describe('max', () => {
+        it('expect to return correctly the max value present in the tree', () => {
+            tree.insertMany(2, 3, 54, 23, 42, 543, 25, -30, 3124, 15, 124, 234, 1234, 12);
+
+            const maxValue = tree.max();
+            expect(maxValue).to.equal(3124);
+        });
+
+        it('expect to return null, when tree is empty', () => {
+            const maxValue = tree.max();
+            expect(maxValue).to.be.null;
+        });
+    });
+
+    describe('contains', () => {
+        it('expect to return true when passed a value that is present in the tree', () => {
+            tree.insertMany(2, 3, 54, 23, 42, 543, 25, -30, 3124, 15, 124, 234, 1234, 12);
+
+            const contains = tree.contains(42);
+            expect(contains).to.be.true;
+        });
+
+        it('expect to return false when passed a value that is no longer present in tree', () => {
+            tree.insertMany(2, 3, 54, 23, 42, 543, 25, -30, 3124, 15, 124, 234, 1234, 12);
+            let contains = tree.contains(124);
+            expect(contains).to.be.true;
+
+            tree.remove(124);
+
+            contains = tree.contains(124);
+            expect(contains).to.be.false;
         });
     });
 });

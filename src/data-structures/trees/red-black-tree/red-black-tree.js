@@ -373,7 +373,7 @@ class RedBlackTree {
     }
 
     _findOptimalNode(node, dir) {
-        while (node[dir] !== null) {
+        while (node !== null && node[dir] !== null) {
             node = node[dir];
         }
 
@@ -398,11 +398,5 @@ class RedBlackTree {
         this._inOrder(node.right, callback);
     }
 }
-
-const tree = new RedBlackTree();
-tree.insertMany(30, 20, 40, 35);
-
-tree.remove(35);
-tree.remove(20);
 
 module.exports = RedBlackTree;
