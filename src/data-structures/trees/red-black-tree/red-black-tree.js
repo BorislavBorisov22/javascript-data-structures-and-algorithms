@@ -29,7 +29,7 @@ class RedBlackTree {
 
         node.parent = parent;
 
-        this.root = this.fixTree(node);
+        this.root = this._fixInsert(node);
         this.root.color = nodeColor.black;
     }
 
@@ -37,7 +37,73 @@ class RedBlackTree {
         values.forEach(this.insert.bind(this));
     }
 
-    fixTree(startNode) {
+    remove(value) {
+        let node = this.root;
+        let searchValue = value;
+
+        // peforming standart binary search tree removal until we go to a case removing
+        // a node with 0 or 1 child
+        while (node !== null) {
+            const compareResult = this.cmp(searchValue, node.value);
+            if (compareResult === 0) {
+                if (node.left && node.right) {
+                    const inOrderSuccessor = this._findMinNode(node.right);
+                    node.value = inOrderSuccessor.value;
+                    node = inOrderSuccessor;
+                } else {
+                    this._fixRemove(node);
+                    return;
+                }
+            } else if (compareResult < 0) {
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+        }
+
+        if (this.root) {
+            this.root.color = nodeColor.black;
+        }
+    }
+
+    removeMany(...values) {
+        values.forEach(this.remove.bind(this));
+    }
+
+    contains(value) {
+        return this.find(value) !== null;
+    }
+
+    min() {
+        const minNode = this._findMinNode(this.root);
+        return minNode !== null ? minNode.value : null;
+    }
+
+    max() {
+        const maxNode = this._findMaxNode(this.root);
+        return maxNode !== null ? maxNode.value : null;
+    }
+
+    find(value) {
+        let currentNode = this.root;
+        while (currentNode !== null) {
+            const cmpResult = this.cmp(value, currentNode.value);
+            if (cmpResult === 0) {
+                return currentNode.value;
+            }
+
+            const dir = cmpResult < 0 ? 'left' : 'right';
+            currentNode = currentNode[dir];
+        }
+
+        return null;
+    }
+
+    inOrder(callback) {
+        this._inOrder(this.root, callback);
+    }
+
+    _fixInsert(startNode) {
         let node = startNode;
 
         while (node.parent !== null) {
@@ -64,18 +130,18 @@ class RedBlackTree {
 
                 if (Node.isLeftChild(node) && Node.isLeftChild(node.parent)) {
                     // right rotation
-                    newRoot = this.rotateRight(node.parent.parent);
+                    newRoot = this._rotateRight(node.parent.parent);
                 } else if (Node.isRightChild(node) && Node.isRightChild(node.parent)) {
                     // left rotation
-                    newRoot = this.rotateLeft(node.parent.parent);
+                    newRoot = this._rotateLeft(node.parent.parent);
                 } else if (Node.isLeftChild(node) && Node.isRightChild(node.parent)) {
                     // left right rotation
-                    this.rotateRight(node.parent);
-                    newRoot = this.rotateLeft(node.parent);
+                    this._rotateRight(node.parent);
+                    newRoot = this._rotateLeft(node.parent);
                 } else if (Node.isRightChild(node) && Node.isLeftChild(node.parent)) {
                     // right left rotation
-                    this.rotateLeft(node.parent);
-                    newRoot = this.rotateRight(node.parent);
+                    this._rotateLeft(node.parent);
+                    newRoot = this._rotateRight(node.parent);
                 } else {
                     node = node.parent;
                     continue;
@@ -99,14 +165,6 @@ class RedBlackTree {
         return node;
     }
 
-    _findMin(node) {
-        while (node.left !== null) {
-            node = node.left;
-        }
-
-        return node;
-    }
-
     _transplantNode(node) {
         const dir = node.left ? 'left' : 'right';
 
@@ -123,36 +181,7 @@ class RedBlackTree {
         return node[dir];
     }
 
-    remove(value) {
-        let node = this.root;
-        let searchValue = value;
-
-        // peforming standart binary search tree removal until we go to a case removing
-        // a node with 0 or 1 child
-        while (node !== null) {
-            const compareResult = this.cmp(searchValue, node.value);
-            if (compareResult === 0) {
-                if (node.left && node.right) {
-                    const inOrderSuccessor = this._findMin(node.right);
-                    node.value = inOrderSuccessor.value;
-                    node = inOrderSuccessor;
-                } else {
-                    this.fixRemove(node);
-                    return;
-                }
-            } else if (compareResult < 0) {
-                node = node.left;
-            } else {
-                node = node.right;
-            }
-        }
-
-        if (this.root) {
-            this.root.color = nodeColor.black;
-        }
-    }
-
-    fixRemove(nodeToRemove) {
+    _fixRemove(nodeToRemove) {
         if (!nodeToRemove) {
             throw new Error('Cannot remove undefined or null node!');
         }
@@ -167,13 +196,12 @@ class RedBlackTree {
                 newNode.color = nodeColor.black;
             }
         } else {
-            // double black node case
+            // double black node cases
             let newNode = this._transplantNode(node);
             this._deleteCase1(newNode, parent, sibling, isLeftChild);
         }
     }
 
-    // when double black node is root
     _deleteCase1(doubleBlackNode, parent, sibling, isLeftChild) {
         if (doubleBlackNode === this.root) {
             return;
@@ -189,10 +217,10 @@ class RedBlackTree {
 
             let newSibling;
             if (isLeftChild) {
-                this.rotateLeft(parent);
+                this._rotateLeft(parent);
                 newSibling = parent.right;
             } else {
-                this.rotateRight(parent);
+                this._rotateRight(parent);
                 newSibling = parent.left;
             }
 
@@ -241,14 +269,14 @@ class RedBlackTree {
             sibling && Node.isBlack(sibling)) {
 
             if (isLeftChild && Node.isBlack(sibling.right) && !Node.isBlack(sibling.left)) {
-                this.rotateRight(sibling);
+                this._rotateRight(sibling);
 
                 sibling.color = nodeColor.red;
                 sibling.parent.color = nodeColor.black;
 
                 sibling = sibling.parent;
             } else if (Node.isBlack(sibling.left) && !Node.isBlack(sibling.right)) {
-                this.rotateLeft(sibling);
+                this._rotateLeft(sibling);
 
                 sibling.color = nodeColor.red;
                 sibling.parent.color = nodeColor.black;
@@ -264,7 +292,7 @@ class RedBlackTree {
         if (parent && sibling && Node.isBlack(sibling)) {
             const parentColor = parent.color;
             if (isLeftChild && !Node.isBlack(sibling.right)) {
-                this.rotateLeft(parent);
+                this._rotateLeft(parent);
                 sibling.right.color = nodeColor.black;
                 sibling.color = parentColor;
 
@@ -274,7 +302,7 @@ class RedBlackTree {
 
                 return;
             } else if (!isLeftChild && !Node.isBlack(sibling.left)) {
-                this.rotateRight(parent);
+                this._rotateRight(parent);
                 sibling.left.color = nodeColor.black;
                 sibling.color = parentColor;
 
@@ -290,7 +318,7 @@ class RedBlackTree {
     }
 
 
-    rotateRight(node) {
+    _rotateRight(node) {
         if (!node) {
             return;
         }
@@ -318,7 +346,7 @@ class RedBlackTree {
         return newRoot;
     }
 
-    rotateLeft(node) {
+    _rotateLeft(node) {
         if (!node) {
             return;
         }
@@ -344,8 +372,20 @@ class RedBlackTree {
         return newRoot;
     }
 
-    inOrder(callback) {
-        this._inOrder(this.root, callback);
+    _findOptimalNode(node, dir) {
+        while (node[dir] !== null) {
+            node = node[dir];
+        }
+
+        return node;
+    }
+
+    _findMinNode(node) {
+        return this._findOptimalNode(node, 'left');
+    }
+
+    _findMaxNode(node) {
+        return this._findOptimalNode(node, 'right');
     }
 
     _inOrder(node, callback) {
@@ -358,5 +398,11 @@ class RedBlackTree {
         this._inOrder(node.right, callback);
     }
 }
+
+const tree = new RedBlackTree();
+tree.insertMany(30, 20, 40, 35);
+
+tree.remove(35);
+tree.remove(20);
 
 module.exports = RedBlackTree;
