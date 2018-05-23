@@ -45,11 +45,36 @@ class Trie {
 
         return node.isEndOfWord;
     }
+
+    delete(word) {
+        if (!word) {
+            throw new Error('Passed word cannot be null or undefined');
+        }
+
+        this._delete(this.root, word, 0);
+    }
+
+    _delete(node, word, wordIndex) {
+        if (node.isEndOfWord && wordIndex === word.length) {
+            return true;
+        }
+
+        if (!node.children.has(word[wordIndex])) {
+            return false;
+        }
+
+        const next = node.children.get(word[wordIndex]);
+        const shouldDeleteChild = this._delete(next, word, wordIndex + 1);
+        if (shouldDeleteChild) {
+            node.children.delete(word[wordIndex]);
+            return node.children.size > 0 ? false : true;
+        }
+
+        return false;
+    }
 }
 
 const trie = new Trie();
-trie.insertMany(...'the a there answer any by bye their therefore'.split(' '));
-const exists = (trie.exists('and'));
-console.log(exists);
-
+trie.insertMany('the', 'though');
+trie.delete('the');
 module.exports = Trie;
