@@ -56,6 +56,7 @@ class Trie {
 
     _delete(node, word, wordIndex) {
         if (node.isEndOfWord && wordIndex === word.length) {
+            node.isEndOfWord = false;
             return true;
         }
 
@@ -74,7 +75,4 @@ class Trie {
     }
 }
 
-const trie = new Trie();
-trie.insertMany('the', 'though');
-trie.delete('the');
 module.exports = Trie;
