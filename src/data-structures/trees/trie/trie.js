@@ -57,7 +57,7 @@ class Trie {
     _delete(node, word, wordIndex) {
         if (node.isEndOfWord && wordIndex === word.length) {
             node.isEndOfWord = false;
-            return true;
+            return node.children.size > 0 ? false : true;
         }
 
         if (!node.children.has(word[wordIndex])) {
