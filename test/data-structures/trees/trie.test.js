@@ -56,4 +56,34 @@ describe('Trie', () => {
             expect(trie.exists('newWord')).to.be.true;
         });
     });
+
+    describe('delete', () => {
+        it('expect to removed words correctly when word is present in trie', () => {
+            const words = [
+                'someword',
+                'someOtherWord',
+                'newWord',
+                'newnewWord',
+                'newWorddd'
+            ];
+
+            trie.insertMany(...words);
+
+            expect(trie.exists('someword')).to.be.true;
+
+            trie.delete('someword');
+
+            expect(trie.exists('someWord')).to.be.false;
+            expect(trie.exists('someOtherWord')).to.be.true;
+
+            expect(trie.exists('newWord')).to.be.true;
+            trie.delete('newWord');
+            expect(trie.exists('newWord')).to.be.false;
+            expect(trie.exists('newWorddd')).to.be.true;
+            expect(trie.exists('newnewWord')).to.be.true;
+
+            trie.delete('someOtherWord');
+            expect(trie.exists('someOtherWord')).to.be.false;
+        });
+    });
 });
