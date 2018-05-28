@@ -84,6 +84,8 @@ describe('Trie', () => {
 
             trie.delete('someOtherWord');
             expect(trie.exists('someOtherWord')).to.be.false;
+
+            expect(trie._size).to.be.equal(2);
         });
     });
 });

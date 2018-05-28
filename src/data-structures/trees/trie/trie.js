@@ -68,6 +68,7 @@ class Trie {
         const shouldDeleteChild = this._delete(next, word, wordIndex + 1);
         if (shouldDeleteChild) {
             node.children.delete(word[wordIndex]);
+            this._size--;
             return node.children.size > 0 ? false : true;
         }
 
