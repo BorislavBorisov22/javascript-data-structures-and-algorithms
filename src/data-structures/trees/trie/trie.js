@@ -56,6 +56,7 @@ class Trie {
 
     _delete(node, word, wordIndex) {
         if (node.isEndOfWord && wordIndex === word.length) {
+            this._size--;
             node.isEndOfWord = false;
             return node.children.size > 0 ? false : true;
         }
@@ -68,7 +69,6 @@ class Trie {
         const shouldDeleteChild = this._delete(next, word, wordIndex + 1);
         if (shouldDeleteChild) {
             node.children.delete(word[wordIndex]);
-            this._size--;
             return node.children.size > 0 ? false : true;
         }
 
