@@ -162,7 +162,46 @@ describe('Trie', () => {
 
             expect(trie._size).to.be.equal(2);
         });
-    });
 
-    describe('insert, delete', () => {});
+        it('expect to remina valid trie structure when deleting words', () => {
+            trie.insertMany('word', 'woom', 'wor', 'newWord');
+
+            trie.delete('newWord');
+            trie.delete('wor');
+
+            expect(trie.size).to.equal(2);
+            const root = trie.root;
+            expect(root.value).to.equal('');
+            expect(root.children.size).to.equal(1);
+
+            let node = root.children.get('w');
+            expect(node.isEndOfWord).to.be.false;
+            expect(node.children.size).to.equal(1);
+            expect(node.children.has('o')).to.be.true;
+
+            node = node.children.get('o');
+            expect(node.isEndOfWord).to.be.false;
+            expect(node.children.size).to.equal(2);
+            expect(node.children.has('o')).to.be.true;
+            expect(node.children.has('r')).to.be.true;
+
+            node = node.children.get('o');
+            expect(node.isEndOfWord).to.be.false;
+            expect(node.children.size).to.equal(1);
+            expect(node.children.has('m')).to.be.true;
+
+            node = node.children.get('m');
+            expect(node.isEndOfWord).to.be.true;
+            expect(node.children.size).to.equal(0);
+
+            node = root.children.get('w').children.get('o').children.get('r');
+            expect(node.isEndOfWord).to.be.false;
+            expect(node.children.size).to.equal(1);
+            expect(node.children.has('d')).to.true;
+
+            node = node.children.get('d');
+            expect(node.isEndOfWord).to.be.true;
+            expect(node.children.size).to.equal(0);
+        });
+    });
 });
