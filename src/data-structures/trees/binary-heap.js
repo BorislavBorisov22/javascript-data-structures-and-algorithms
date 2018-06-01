@@ -58,7 +58,6 @@ class BinaryHeap {
         }
 
         this.data[index] = value;
-
         return returnValue;
     }
 
